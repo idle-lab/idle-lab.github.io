@@ -29,7 +29,7 @@
 
 - **Project 3 -- Query Execution**：基于 Iterator Model 实现查询层的算子，包括SeqScan、IndexScan、Insert、Update、Delete、HashJoin，Aggregation和Windowfunction。以及一些 Heuristics 的优化，包括：SeqScan to IndexScan、NestedLoopJoin to HashJoin、Top-N Optimization。
 
-- **Project#4 -- Concurrency Control**：实现 MV + OCC 的并发控制协议，实现了 Snapshot level 的隔离，支持 read-write、write-read、read-read 的并发执行。
+- **Project#4 -- Concurrency Control**：实现 MV + OCC 的并发控制协议，实现了 Snapshot level 的隔离，支持 read-write、write-read、read-read 的并行执行。
 
 下面是整个项目的整体结构：
 
