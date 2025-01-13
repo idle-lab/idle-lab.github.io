@@ -179,6 +179,8 @@ nav:
       - Two-Phase Locking: DB/CC/tpl.md
       - Timestamp Ordering: DB/CC/TOCC.md
       - Multi-Version Concurrency Control: DB/CC/MVCC.md
+    - Recovery And Logging:
+      - Logging Schemes: DB/recovery/log.md
   - Others:
     - Git:
       - Introduction: Others/Git/index.md
