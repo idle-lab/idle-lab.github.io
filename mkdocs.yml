@@ -6,8 +6,9 @@ edit_uri: edit/master/docs
 
 nav:
   - About:
-    - 👨‍💻: index.md
-    - 😋: hobbies.md
+    - CYB👨‍💻: index.md
+    - HOBBY😋: hobbies.md
+    - TODO 🧾: TODO.md
   - DSA:
     - Introduction: DS_Algo.md
     - Algorithms:
@@ -152,7 +153,9 @@ nav:
     - C++20:
       - Semaphore: C++/c++20/semaphore/semaphore.md
       - Format: C++/c++20/format/format.md
-  - DBS:
+  - Rust:
+    - Introduction: Rust/index.md
+  - DataBase:
     - Introduction: DB/index.md
     - SQL:
       - Basic Operations: DB/SQL/BaseOp.md
@@ -222,6 +225,10 @@ theme:
 
 
 markdown_extensions:
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
   - admonition
   - pymdownx.details
   - pymdownx.superfences

@@ -88,3 +88,15 @@ NO STEAL + FORCE 的限制是事务需要修改的所有数据（即写入集）
 
 ## **Shadow Paging**
 
+影子分页是对 NO STEAL + FORCE 的改进，其中 DBMS 在写入时复制页面以维护数据库的两个单独版本：
+
+- master：仅包含已提交交易的更改。
+
+- shadow：临时数据库，其中包含未提交事务所做的更改。
+
+更新仅在卷影副本中进行。当事务提交时，卷影副本会自动切换为新的主副本。老 master 最终会被垃圾回收。这是 NO-STEAL + FORCE 系统的示例。图 2 显示了影子分页的高级示例。
+
+<figure markdown="span">
+    ![Image title](./02.png){ width="650" }
+</figure>
+
