@@ -184,6 +184,7 @@ nav:
       - Multi-Version Concurrency Control: DB/CC/MVCC.md
     - Recovery And Logging:
       - Logging Schemes: DB/recovery/log.md
+      - Database Crash Recovery: DB/recovery/recovery.md
   - Others:
     - Git:
       - Introduction: Others/Git/index.md

@@ -4,7 +4,7 @@
 This is my study note of Rust language. I want to practice my English, so I decide to complete this chapter by English. If I have unclear expression in somewhere, forgive me please.
 
 
-To complete this chapter, I references resources blow:
+To complete this chapter, I have referred to the following materials:
 
 - [The Rust Programming Language](https://doc.rust-lang.org/book/){target=blank_}
 
