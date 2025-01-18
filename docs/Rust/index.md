@@ -1,7 +1,5 @@
 
-### **Introduction**
-
-This is my study note of Rust language. I want to practice my English, so I decide to complete this chapter by English. If I have unclear expression in somewhere, forgive me please.
+This is my study note of Rust language. I want to practice my English, so I decide to complete this chapter by English. If I have unclear expression in somewhere, please report it to me or submit a PRs on Github.
 
 
 To complete this chapter, I have referred to the following materials:
