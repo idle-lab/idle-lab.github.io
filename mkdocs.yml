@@ -155,6 +155,8 @@ nav:
       - Format: C++/c++20/format/format.md
   - Rust:
     - Introduction: Rust/index.md
+    - Concept:
+      - OnwnerShip: Rust/MainConcept/OnwnerShip.md
   - DataBase:
     - Introduction: DB/index.md
     - SQL:
