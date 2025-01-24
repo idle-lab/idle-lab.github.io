@@ -187,7 +187,10 @@ nav:
     - Recovery And Logging:
       - Logging Schemes: DB/recovery/log.md
       - Database Crash Recovery: DB/recovery/recovery.md
-    - Introduction to Distributed Databases: DB/distributed/distributed.md
+    - Distributed Databases:
+      - Introduction: DB/distributed/distributed.md
+      - Distributed OLTP: DB/distributed/OLTP.md
+      - Distributed OLAP: DB/distributed/OLAP.md
   - Others:
     - Git:
       - Introduction: Others/Git/index.md

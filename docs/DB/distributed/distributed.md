@@ -89,3 +89,165 @@ DBMS 的执行层可以独立于存储层进行扩展。添加新的存储节点
 <hr>
 
 ## **Partitioning Schemes**
+
+既然要做 Distributed DBMS，势必要将数据库的资源分布到多个节点上，如磁盘、内存、CPU，这就是广义的分片，Partitioning 或 Sharding。DBMS 需要在各个分片上执行查询的一部分，然后将结果整合后得到最终答案。这部分我们来关注数据如何在磁盘上分片。
+
+分区方案的目标是最大化单节点事务，或者尽可能让事务仅访问一个分区上包含的数据。这使得 DBMS 不需要协调其他节点上运行的并发事务的行为。另一方面，分布式事务访问一个或多个分区上的数据，这需要昂贵且困难的协调，这将在下一节中讨论。
+
+对于逻辑分区的节点，特定节点负责从共享磁盘访问特定元组。对于物理分区的节点，每个 shared nothing 的节点只需要读取修改它自己本地的磁盘。
+
+### **Naive Table Partitioning**
+
+假设单个节点有足够的容量存储单张表，我们可以简单地让每个节点只存储一张表：
+
+<figure markdown="span">
+    ![Image title](./05.png){ width="750" }
+</figure>
+
+如果只存在单表查询，这种方案是最理想的。但这种方法很差，因为它不可扩展。如果经常查询一张表而不使用所有可用节点，则一个分区的资源可能会耗尽。
+
+### **Vertical Partitioning**
+
+垂直分区，它将表的属性拆分到不同分区中，每个分区还必须存储用于重建原始记录的元组信息。
+
+
+<figure markdown="span">
+    ![Image title](./06.png){ width="750" }
+</figure>
+
+<figure markdown="span">
+    ![Image title](./07.png){ width="750" }
+</figure>
+
+
+### **Horizontal Partitioning**
+
+更常见的是，使用水平分区将表的元组拆分为不相交的子集。这种分片方式要求 DBMS 要找到在大小、负载上能均匀分配的键，作为分区键。
+
+<figure markdown="span">
+    ![Image title](./08.png){ width="750" }
+</figure>
+
+DBMS 可以基于Hash、数据范围或谓词对数据库进行物理分区（不共享任何内容）或逻辑分区（共享磁盘）。
+
+- 逻辑分区（Logical Partitioning）：一个节点负责一组键，但它实际上并不存储这些键。这通常用于共享磁盘架构。
+
+<figure markdown="span">
+    ![Image title](./09.png){ width="550" }
+</figure>
+
+如果我要获取多个数据，计算节点会从其他的计算节点获取相应的数据：
+
+<figure markdown="span">
+    ![Image title](./10.png){ width="550" }
+</figure>
+
+- 物理分区（Physical Partitioning）：节点负责一组键值，并物理存储这些键值。这通常用于无共享架构。
+
+<figure markdown="span">
+    ![Image title](./11.png){ width="550" }
+</figure>
+
+哈希分区的问题在于，当添加或删除节点时，必须对大量数据进行洗牌，例子如下：当添加新节点后，模数从 4 变为 5，全部数据的位置都需要调整。
+
+<figure markdown="span">
+    ![Image title](./12.png){ width="550" }
+</figure>
+
+解决方案是**一致性哈希**。
+
+一致性哈希将每个节点分配到某个逻辑环上的一个位置。然后每个分区键的哈希映射到环上的一个位置。顺时针方向最靠近该键的节点负责该键。例子如下：
+
+<figure markdown="span">
+    ![Image title](./13.png){ width="550" }
+</figure>
+
+添加或删除节点时，键仅在与添加/删除的节点相邻的节点之间移动，因此仅移动 1/n 部分的键：
+
+<figure markdown="span">
+    ![Image title](./14.png){ width="550" }
+</figure>
+
+我们可以设置复制因子为 k ，它意味着每个键都在顺时针方向最近的 k 个节点处复制。
+
+<figure markdown="span">
+    ![Image title](./15.png){ width="550" }
+</figure>
+
+<hr>
+
+## **Transaction Coordination**
+
+分布式事务访问一个或多个分区的数据，这就需要高昂的协调花费，通常有两种实现方式:中心化 (Centralized) 和去中心化 (Decentralized)。
+
+### **Centralized coordinator**
+
+实现 Centralized Coordinator 的其中一种思路就是构建一个独立的组件负责管理事务，叫 Transaction Processing Monitor，即 TP Monitor。TP Monitor 与其之下运行的单节点 DBMS 无关，DBMS 无需感知 TP Monitor 的存在。每次应用在发送事务请求时，需要先通过 TP Monitor 确认事务是否可以执行。
+
+<figure markdown="span">
+    ![Image title](./16.png){ width="650" }
+</figure>
+
+现在还有好多老的系统在使用这项技术：Oracle bea、Apache Omid、IBM Transac。
+
+<figure markdown="span">
+    ![Image title](./17.png){ width="650" }
+</figure>
+
+### **Middleware**
+
+更为常见的是中间件方法，它接受查询请求并将查询路由到正确的分区或数据库中。Facebook 运行着世界上最大的 MySQL 集群，采用的就是这种方案。它们的 Middleware 负责处理分布式事务、路由、分片等所有逻辑。
+
+<figure markdown="span">
+    ![Image title](./18.png){ width="650" }
+</figure>
+
+使用这种方式还可以实现联邦数据库系统：
+
+<figure markdown="span">
+    ![Image title](./19.png){ width="650" }
+</figure>
+
+联邦数据库系统目的是将多个不同的单机数据库系统组合成一个集群，理想情况下是：将这些数据孤岛组合成一个涵盖所有数据的全局视图。这是一个比较老的方法始于 1990s，且尚无人可以很好的实现，原因是：
+
+- 不同的数据模型，查询语言
+
+- 没有简单的方式进行查询优化
+
+- 大量的数据拷贝，需要将大量数据读到 Middleware 中。
+
+### **Decentralized Coordinator**
+
+Decentralized Coordinator 的基本思路就是，执行某个事务时，会选择一个分片充当 Master，后者负责询问涉及事务的其它分片是否可以执行事务，完成事务的提交或中止：
+
+<figure markdown="span">
+    ![Image title](./20.png){ width="650" }
+</figure>
+
+集群中没有一个固定的 Leader Node，而是每过一段时间，通过选举，选取出一个临时的 Leader Node 来负责事务的运行与提交，这一般靠 Raft 或 Paxos 算法来实现选举。
+
+### **Summary**
+
+在多个客户端尝试获取同一分区上的锁的情况下，Centralized coordinator 会导致瓶颈，然而，它对于分布式 2PL 来说可能更好，因为它具有锁的中心视图并且可以更快地处理死锁。对于 Decentralized Coordinator 来说，这并非易事。
+
+<hr>
+
+## **Distributed Concurrency Control**
+
+分布式并发控制的难度在于：
+
+- Replication
+
+- Network Communication Overhead
+
+- Node Failures
+
+- Clock Skew
+
+举个例子，假如我们要实现分布式的 2PL：
+
+<figure markdown="span">
+    ![Image title](./20.png){ width="650" }
+</figure>
+
+A 数据在 Node 1 上，B 数据在 Node 2 上，因为没有中心化的角色存在，一旦发现如上图所示的死锁，双方都不知道是应该中止还是继续等待。从这个例子我们可以看出将并发控制升级到分布式并发控制，有许多问题要解决。
