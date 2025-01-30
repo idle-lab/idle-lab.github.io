@@ -39,6 +39,7 @@ nav:
       - Segment Tree:
         - Basic Segment Tree (To be modified): DS/SegTr/SegTr.md
         - JiRuYi Segment Tree: DS/SegTr/JRYSegTr.md
+      - Skip List: DS/SkipList/skiplist.md
     - Graph Theory:
       - Graph Storage: Graph/StorageOfGraphs/Storage.md
       - Topological Sort: Graph/TopoSort/Topo.md
@@ -153,6 +154,9 @@ nav:
     - C++20:
       - Semaphore: C++/c++20/semaphore/semaphore.md
       - Format: C++/c++20/format/format.md
+    - cmake:
+      - Introduction: C++/CMake/HelloWorld.md
+      - Macros And Commands: C++/CMake/command.md
   - Rust:
     - Introduction: Rust/index.md
     - Concept:
@@ -196,8 +200,6 @@ nav:
       - Introduction: Others/Git/index.md
     - JSON:
       - Introduction: Others/JSON/index.md
-    - cmake:
-      - Introduction: Others/CMake/HelloWorld.md
     - xmake:
       - Introduction: Others/xmake/index.md
       - xmake.lua Syntax: Others/xmake/config.md
