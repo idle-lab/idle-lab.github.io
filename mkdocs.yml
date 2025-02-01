@@ -157,11 +157,12 @@ nav:
     - cmake:
       - Introduction: C++/CMake/HelloWorld.md
       - Macros And Commands: C++/CMake/command.md
+    - C++ Memory Order: C++/MemoryOrder.md
   - Rust:
     - Introduction: Rust/index.md
     - Concept:
       - OnwnerShip: Rust/MainConcept/OnwnerShip.md
-  - DataBase:
+  - Database:
     - Introduction: DB/index.md
     - SQL:
       - Basic Operations: DB/SQL/BaseOp.md
@@ -195,6 +196,9 @@ nav:
       - Introduction: DB/distributed/distributed.md
       - Distributed OLTP: DB/distributed/OLTP.md
       - Distributed OLAP: DB/distributed/OLAP.md
+    - RocksDB:
+      - Introduction: DB/rocksdb/intr.md
+      - MemTable: DB/rocksdb/memtable.md
   - Others:
     - Git:
       - Introduction: Others/Git/index.md
