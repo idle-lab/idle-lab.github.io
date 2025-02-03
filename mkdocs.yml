@@ -199,6 +199,8 @@ nav:
     - RocksDB:
       - Introduction: DB/rocksdb/intr.md
       - MemTable: DB/rocksdb/memtable.md
+  - Distributed:
+    - Introduction: Distributed/index.md
   - Others:
     - Git:
       - Introduction: Others/Git/index.md

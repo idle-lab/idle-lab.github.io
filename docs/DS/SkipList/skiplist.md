@@ -27,7 +27,7 @@
 
 跳表在有序链表的基础上，引入了 **分层** 的概念。首先，跳表的每一层都是一个有序链表，特别地，最底层是初始的有序链表。每个位于第 $i$ 层的节点有 $p$ 的概率出现在第 $i+1$ 层，$p$ 为常数。
 
-
+因为整个结构比较简单，可以很轻松的实现无锁的跳表，避免锁的开销。
 
 ???+ note "SkipList"
 
@@ -165,7 +165,7 @@
 
         ```cpp
         #include "SkipList.hpp"
-        
+
         void SkipListBasic() {
           SkipList<int, int> sl(10);
 
@@ -266,3 +266,5 @@
 [Oi Wiki](https://oi-wiki.org/ds/skiplist/){target=_blank}
 
 [Skip Lists: A Probabilistic Alternative to Balanced Trees](https://15721.courses.cs.cmu.edu/spring2018/papers/08-oltpindexes1/pugh-skiplists-cacm1990.pdf){target=_blank}
+
+[rocksdb](https://github.com/facebook/rocksdb/blob/main/memtable/skiplist.h){target=_blank}

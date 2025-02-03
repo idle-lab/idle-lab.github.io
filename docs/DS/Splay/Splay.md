@@ -11,6 +11,7 @@ Splay 每次操作后都要进行旋转，把操作的节点旋转到根节点�
 
 
 ??? code "Splay"
+
 	```cpp
 	#include <bits/stdc++.h>
 	using namespace std;

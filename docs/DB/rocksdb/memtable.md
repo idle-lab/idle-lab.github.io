@@ -23,6 +23,8 @@ MemTable 是一个内存数据结构，在数据被刷新到磁盘的 SST 文件
 
 基于 SkipList 的 memtable 在读写、随机访问和顺序扫描方面都提供了良好的性能。
 
+关于跳表可以参考：[SkipList](../../DS/SkipList/skiplist.md)
+
 ## **HashSkiplist MemTable**
 
 顾名思义，HashSkipList在哈希表中组织数据，每个哈希桶都是一个跳表，而 HashLinkList 在哈希表中组织数据，每个哈希桶都是一个排序的单链表。这两种类型都是为了在查询时减少比较次数而构建的。一个很好的用例是将它们与 PlainTable SST 格式结合使用，并将数据存储在 RAMFS 中。
@@ -42,3 +44,9 @@ MemTable 是一个内存数据结构，在数据被刷新到磁盘的 SST 文件
 - WAL 文件总大小超过了 `DBOptions::max_Total_WAL_size`。在这种情况下，将刷新具有最旧数据的内存表，以便清除具有此内存表中数据的 WAL 文件。
 
 
+memtable 在刷新时可能还没有满，在经过压缩，最终的 SST 文件会比对应的 memtable 小。
+
+
+## **Reference**
+
+[GitHub Wiki MemTable](https://github.com/facebook/rocksdb/wiki/MemTable#insert-with-hint){target=_blank}
