@@ -143,7 +143,118 @@ add_executable(app  ${SRC_LIST})
 
 ## **制作动态库或静态库**
 
+有些时候我们编写的源代码并不需要将他们编译生成可执行程序，而是生成一些静态库或动态库提供给第三方使用，下面来讲解在cmake中生成这两类库文件的方法。
 
+`add_library` 命令用于定义一个库目标，其基本语法如下：
+
+```cmake
+add_library(<name> [STATIC | SHARED | MODULE]
+            [EXCLUDE_FROM_ALL]
+            source1 source2 ... sourceN)
+```
+
+- `<name>`：库的名称。
+
+- 库类型：
+  
+STATIC：构建静态库（通常扩展名为 .a 或 .lib）。
+
+SHARED：构建动态（共享）库（通常扩展名为 .so、.dll 或 .dylib）。
+
+MODULE：构建加载模块（插件），不带链接信息。
+
+- 如果不指定类型，CMake 会默认使用全局变量 `BUILD_SHARED_LIBS` 的值：
+
+若 BUILD_SHARED_LIBS 为 ON，则默认构建动态库；
+
+若为 OFF，则构建静态库。
+
+### **静态库示例**
+
+假设项目结构如下：
+
+```css
+MyProject/
+├── CMakeLists.txt
+├── include/
+│   └── mylib.h
+└── src/
+    ├── foo.cpp
+    └── bar.cpp
+```
+
+CMakeLists.txt 示例：
+
+```cmake
+cmake_minimum_required(VERSION 3.10)
+project(MyStaticLibrary)
+
+# 将源文件列表存入变量
+set(SOURCES
+    src/foo.cpp
+    src/bar.cpp
+)
+
+# 指定构建静态库
+add_library(mylib STATIC ${SOURCES})
+
+# 为目标设置头文件搜索路径
+target_include_directories(mylib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+```
+
+此配置会生成一个静态库文件（Linux 下为 libmylib.a，Windows 下为 mylib.lib）。
+
+### **动态库示例**
+
+修改库类型为 SHARED，配置如下：
+
+```cmake
+cmake_minimum_required(VERSION 3.10)
+project(MySharedLibrary)
+
+set(SOURCES
+    src/foo.cpp
+    src/bar.cpp
+)
+
+# 指定构建动态库
+add_library(mylib SHARED ${SOURCES})
+
+target_include_directories(mylib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+```
+构建后生成的库文件（Linux 下为 libmylib.so，Windows 下为 mylib.dll 以及对应的导入库 mylib.lib）为动态库。
+
+### **使用全局变量 BUILD_SHARED_LIBS**
+
+如果希望根据编译选项灵活控制库的类型，可以利用全局变量 BUILD_SHARED_LIBS。例如：
+
+```cmake
+cmake_minimum_required(VERSION 3.10)
+project(MyLibrary)
+
+set(SOURCES
+    src/foo.cpp
+    src/bar.cpp
+)
+
+# 没有明确指定库的类型时，CMake 会根据 BUILD_SHARED_LIBS 决定类型
+add_library(mylib ${SOURCES})
+
+target_include_directories(mylib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+```
+
+在配置项目时，可以通过命令行指定：
+
+- 构建动态库：
+```bash
+cmake -DBUILD_SHARED_LIBS=ON ..
+```
+
+- 构建静态库：
+```bash
+cmake -DBUILD_SHARED_LIBS=OFF ..
+```
+这种方式可以让你在同一个 CMakeLists.txt 文件中，根据编译时的选项灵活决定库的类型。
 
 <hr>
 
