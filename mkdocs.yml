@@ -201,6 +201,7 @@ nav:
       - MemTable: DB/rocksdb/memtable.md
   - Distributed:
     - Introduction: Distributed/index.md
+    - MapReduce: Distributed/MapReduce.md
   - Others:
     - Git:
       - Introduction: Others/Git/index.md
