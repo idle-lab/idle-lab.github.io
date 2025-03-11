@@ -1,3 +1,6 @@
+---
+comments: true
+---
 
 # Introduction
 
@@ -41,3 +44,5 @@
 |2418071565|upset_man|[GitHub](https://github.com/idle-lab){target="_blank"}|[Email](mailto:IdelCyb@163.com){target="_blank"}|
 
 > 悲观者总是正确，乐观者正在前行
+
+---

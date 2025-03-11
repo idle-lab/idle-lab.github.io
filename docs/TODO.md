@@ -1,4 +1,6 @@
-
+---
+comments: true
+---
 
 ### **In Plan**
 
@@ -15,3 +17,5 @@
 
 - [x] Finish CMU 15-445 Note
 - [x] Bustub (CMU 15-445 Project)
+
+---

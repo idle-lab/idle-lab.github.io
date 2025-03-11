@@ -1,3 +1,6 @@
+---
+comments: true
+---
 
 # Hobby
 
@@ -11,3 +14,4 @@
 <img src="../LOL.jpg" align="left" height="100" width="200">
 
 <img src="../CSGO.png" align="left" height="400" width="400">
+
