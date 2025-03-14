@@ -458,37 +458,57 @@ Nagle 算法默认是打开的，所以，对于一些需要小包场景的程�
 
 #### **慢启动**
 
-当一条 TCP 连接开始时会进入慢启动的状态，此时 cwnd 的值通常是 1 MSS。TCP 发送希望能快速找到当前网络中可用的最大带宽，**每有一个传输的报文段被确认，cwnd 就会增加一个 MSS**。
+<img src="../image-3.png" align="right" height="300" width="300">
 
-当出现如下情况时，会结束这种增长：
+当一条 TCP 连接开始时会进入慢启动的状态，此时 cwnd 的值通常是 1 MSS。TCP 发送希望能快速找到当前网络中可用的最大带宽，**每有一个传输的报文段被确认，cwnd 就会增加一个 MSS**，此时为指数增长
 
-但出现超时丢包事件时（发生拥塞），就会停止慢启动，将 cwnd 设为 1 重新开始慢启动，并且初始化另一个与状态相关的变量 ssthresh（慢启动中止阈值），ssthresh 初始将被设置为发生拥塞时的 cwnd 的一半。
+但出现超时丢包事件时（发生拥塞），就会停止慢启动，将 cwnd 设为 1 重新开始慢启动，并且初始化另一个与状态相关的变量 ssthresh（慢启动中止阈值），ssthresh 被设置为发生拥塞时的 cwnd 的一半。
 
-之后的慢启动会有所不同，当 cwnd 再次到达 ssthresh 阈值时，再继续翻倍的增加 cwnd 显然不明智（因为上次就是在这里发生拥塞的），此时我们会进入拥塞避免状态。
+之后当 cwnd 再次到达 ssthresh 阈值时，再继续翻倍的增加 cwnd 显然不明智（因为上次就是在这里发生拥塞的），此时我们会进入拥塞避免状态。
 
-还有一种情况也会结束慢启动，当检测到 3 次冗余 ACK 时，TCP 会执行快速重传并进入快速恢复状态。
+还有一种情况也会结束慢启动，当检测到 3 次冗余 ACK 时，这种情况下网络还继续从发送方向接收方交付报文段，因此相比超时指示的丢包， TCP 对这种丢包事件的相应应该不那么剧烈，因此 TCP 会进入快速恢复状态。
 
 总结一下，慢启动结束有三种情况：
 
-- 第一次发生拥塞
+- 发生超时重传，设置 ssthresh = cwnd/2，cwnd = 1，重新开始慢启动。
 
-- 到达 ssthresh 阈值
+- 到达 ssthresh 阈值，进入拥塞避免阶段。
 
-- 接收到三次重复 ACK。
+- 接收到三次重复 ACK，设置 ssthresh = cwnd/2，cwnd = ssthresh，进入快速恢复阶段。
 
 #### **拥塞避免**
 
+拥塞避免阶段，我们每收到一个 MSS 的 ACK 应答，cwnd 的大小就会增加 $\frac{1}{cwnd} \times MSS$ 的大小，每个 RRT 只将 cwnd 增加一个 MSS。
 
 <figure markdown="span">
-![alt text](image-2.png){ width="600" }
+![alt text](image-4.png){ width="600" }
 </figure>
+
+和慢启动类似的，拥塞避免会在遇到超时重传或快速重传时结束：
+
+- 遇到超时重传时，设置 ssthresh = cwnd/2，cwnd = 1，重新开始慢启动。
+
+- 接收到三次重复 ACK，设置 ssthresh = cwnd/2，cwnd = ssthresh，进入快速恢复阶段。
 
 #### **快速恢复**
 
+对于已经收到的 3 个重复 ACK，cwnd 也要加上这个。所以进入快速回复后，首先 cwnd += 3。
 
-最后放上整个算法的有限状态机 FSM
+在早期 Tahoe 版的 TCP 并没有快速回复阶段，到后续的 Reno 版 TCP 加入了快速恢复的实现，如下是两版 TCP 拥塞窗口的变化情况。
 
-![alt text](image-1.png)
+<figure markdown="span">
+![alt text](image-2.png){ width="500" }
+</figure>
+
+- 当收到新的 ACK 应答后，会结束快速恢复阶段，进入拥塞避免阶段，并且设置 cwnd = ssthresh。
+
+- 如果遇到超时重传，设置 ssthresh = cwnd/2，cwnd = 1，重新开始慢启动。
+
+最后放上整个算法的有限状态机 FSM，结合上面的过程就很容易理解了：
+
+<figure markdown="span">
+  ![alt text](image-1.png){ width="550" }
+</figure>
 
 -----------------
 

@@ -202,6 +202,7 @@ nav:
   - Distributed:
     - Introduction: Distributed/index.md
     - MapReduce: Distributed/MapReduce.md
+    - GFS: Distributed/gfs.md
   - Others:
     - Git:
       - Introduction: Others/Git/index.md
