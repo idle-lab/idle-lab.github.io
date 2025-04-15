@@ -95,6 +95,8 @@ nav:
       - I/O:
         - I/O Models: Linux/IO/IOmodel/model.md
         - Multiplexing: Linux/IO/Multiplexing/Multiplexing.md
+      - Linking & Loading:
+        - Linking: Linux/linking/linking.md
     - Others:
       - Root Directory: Linux/others/root/root.md
       - Environment Variables: Linux/others/envir/envir.md
@@ -199,6 +201,7 @@ nav:
     - RocksDB:
       - Introduction: DB/rocksdb/intr.md
       - MemTable: DB/rocksdb/memtable.md
+      - Memory usage in RocksDB: DB/rocksdb/memory_usage.md
   - Distributed:
     - Introduction: Distributed/index.md
     - MapReduce: Distributed/MapReduce.md
