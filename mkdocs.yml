@@ -5,286 +5,280 @@ copyright: "CopyRight &copy CYB"
 edit_uri: edit/master/docs
 
 nav:
-  - About:
-    - CYB👨‍💻: index.md
-    - HOBBY😋: hobbies.md
-    - TODO 🧾: TODO.md
-  - DSA:
-    - Introduction: DS_Algo.md
-    - Algorithms:
-      - Dynamic Programming (Incomplete):
-        - Knapsack Problem: Algorithm/DP/Knapsack/Knapsack.md
-      - Binary Lifting: Algorithm/BinaryLifting/BinaryLifting.md
-      - Sorting (Incomplete):
-        - Introduction: Algorithm/Sort/Sort.md
-        - Bubble Sort: Algorithm/Sort/BubbleSort/Bubble.md
-    - Strings:
-      - Trie: String/Trie/Trie.md
-      - String Hashing: String/StringHash/StringHash.md
-      - KMP: String/KMP/KMP.md
-      - Manacher: String/Manacher/Manacher.md
-    - Data Structures:
-      - Heap:
-        - Binary Heap: DS/Heap/BinHp.md
-      - Hash Table: DS/HTable/HTable.md
-      - Union-Find: DS/UnionFind/UF.md
-      - Block: DS/Block/Block.md
-      - Binary Indexed Tree:
-        - BIT: DS/BIT/BIT.md
-        - 2D BIT: DS/BIT/2_BIT.md
-      - Balanced Search Trees:
-        - Splay: DS/Splay/Splay.md
-        - B Tree: DS/BTree/BTree.md
-        - AVL (To be modified): DS/AVLTree/AVL.md
-      - Segment Tree:
-        - Basic Segment Tree (To be modified): DS/SegTr/SegTr.md
-        - JiRuYi Segment Tree: DS/SegTr/JRYSegTr.md
-      - Skip List: DS/SkipList/skiplist.md
-    - Graph Theory:
-      - Graph Storage: Graph/StorageOfGraphs/Storage.md
-      - Topological Sort: Graph/TopoSort/Topo.md
-      - Trees (Incomplete):
-        - Tree Basics: Graph/Tree/Basic/Basic.md
-        - Minimum Spanning Tree: Graph/Tree/MST/MST.md
-        - Heavy-Light Decomposition: Graph/Tree/hld/hld.md
-      - Strongly Connected Components:
-        - SCC: Graph/scc/scc.md
-    - Mathematics:
-      - Computational Geometry:
-        - 2D Computational Geometry Basics: Math/Geometry/2DGeometry/2D.md
-        - Convex Hull: Math/Geometry/ConvexHull/CH.md
-      - Number Theory:
-        - Number Theory Basics: Math/NumberTheory/Fd.md
-        - Fast Exponentiation: Math/NumberTheory/Qpow/qpow.md
-        - Multiplicative Inverse: Math/NumberTheory/Inv/Inv.md
-        - Sieve Method: Math/NumberTheory/sieve/sieve.md
-      - Numerical Methods:
-        - Newton's Method: Math/Numerical/NtsMethod/Nt.md
-        - Fast Inverse Square Root: Math/Numerical/QSqrt/QSqrt.md
-    - Problem Summaries:
-      - Integer Partition: UsualQ/IntPartition/IntPartition.md
-      - Maximum Subarray Sum: UsualQ/MaxSumOfSub/MaxSumOfSub.md
-      - Summer Training: UsualQ/SummerTraining/SumTraining.md
-  - OS:
-    - Introduction: OSindex.md
-    - Tools:
-      - Commands (Incomplete): Linux/Tools/Cmd/Cmd.md
-      - System Calls: Linux/Tools/Syscall/Syscall.md
-      - GNU Toolchain:
-        - gcc: Linux/Tools/GNU/gcc/gcc.md
-        - gdb: Linux/Tools/GNU/gdb/gdb.md
-        - make: Linux/Tools/GNU/make/make.md
-        - flex: Linux/Tools/GNU/flex_yacc/flex.md
-    - Basic Knowledge:
-      - Concepts: Linux/SysConcept/SysConcept.md
-      - Processes:
-        - Process Concepts: Linux/ProCon/ProCon.md
-        - Process States: Linux/ProStatus/ProStatus.md
-        - Process Control: Linux/ProCtrl/ProCtrl.md
-        - Inter-process Communication: Linux/IPC/IPC.md
-        - Daemon Processes: Linux/DaePro/DaePro.md
-      - Signals: Linux/Signal/signal.md
-      - Threads:
-        - Thread Basics: Linux/Thread/Thread.md
-        - Thread Synchronization: Linux/Thread/Sync.md
-        - Thread Pool: Linux/Thread/Tpool.md
-      - File Systems:
-        - Basic IO: Linux/FileSys/FileIO/FileIO.md
-        - ext2 File System: Linux/FileSys/FileSys/FileSys.md
-        - Virtual File System: Linux/FileSys/VFS/VFS.md
-      - I/O:
-        - I/O Models: Linux/IO/IOmodel/model.md
-        - Multiplexing: Linux/IO/Multiplexing/Multiplexing.md
-      - Linking & Loading:
-        - Linking: Linux/linking/linking.md
+    - About:
+          - CYB👨‍💻: index.md
+          - HOBBY😋: hobbies.md
+          - TODO 🧾: TODO.md
+    - DSA:
+          - Introduction: DS_Algo.md
+          - Algorithms:
+                - Dynamic Programming (Incomplete):
+                      - Knapsack Problem: Algorithm/DP/Knapsack/Knapsack.md
+                - Binary Lifting: Algorithm/BinaryLifting/BinaryLifting.md
+                - Sorting (Incomplete):
+                      - Introduction: Algorithm/Sort/Sort.md
+                      - Bubble Sort: Algorithm/Sort/BubbleSort/Bubble.md
+          - Strings:
+                - Trie: String/Trie/Trie.md
+                - String Hashing: String/StringHash/StringHash.md
+                - KMP: String/KMP/KMP.md
+                - Manacher: String/Manacher/Manacher.md
+          - Data Structures:
+                - Heap:
+                      - Binary Heap: DS/Heap/BinHp.md
+                - Hash Table: DS/HTable/HTable.md
+                - Union-Find: DS/UnionFind/UF.md
+                - Block: DS/Block/Block.md
+                - Binary Indexed Tree:
+                      - BIT: DS/BIT/BIT.md
+                      - 2D BIT: DS/BIT/2_BIT.md
+                - Balanced Search Trees:
+                      - Splay: DS/Splay/Splay.md
+                      - B Tree: DS/BTree/BTree.md
+                      - AVL (To be modified): DS/AVLTree/AVL.md
+                - Segment Tree:
+                      - Basic Segment Tree (To be modified): DS/SegTr/SegTr.md
+                      - JiRuYi Segment Tree: DS/SegTr/JRYSegTr.md
+                - Skip List: DS/SkipList/skiplist.md
+          - Graph Theory:
+                - Graph Storage: Graph/StorageOfGraphs/Storage.md
+                - Topological Sort: Graph/TopoSort/Topo.md
+                - Trees (Incomplete):
+                      - Tree Basics: Graph/Tree/Basic/Basic.md
+                      - Minimum Spanning Tree: Graph/Tree/MST/MST.md
+                      - Heavy-Light Decomposition: Graph/Tree/hld/hld.md
+                - Strongly Connected Components:
+                      - SCC: Graph/scc/scc.md
+          - Mathematics:
+                - Computational Geometry:
+                      - 2D Computational Geometry Basics: Math/Geometry/2DGeometry/2D.md
+                      - Convex Hull: Math/Geometry/ConvexHull/CH.md
+                - Number Theory:
+                      - Number Theory Basics: Math/NumberTheory/Fd.md
+                      - Fast Exponentiation: Math/NumberTheory/Qpow/qpow.md
+                      - Multiplicative Inverse: Math/NumberTheory/Inv/Inv.md
+                      - Sieve Method: Math/NumberTheory/sieve/sieve.md
+                - Numerical Methods:
+                      - Newton's Method: Math/Numerical/NtsMethod/Nt.md
+                      - Fast Inverse Square Root: Math/Numerical/QSqrt/QSqrt.md
+          - Problem Summaries:
+                - Integer Partition: UsualQ/IntPartition/IntPartition.md
+                - Maximum Subarray Sum: UsualQ/MaxSumOfSub/MaxSumOfSub.md
+                - Summer Training: UsualQ/SummerTraining/SumTraining.md
+    - OS:
+          - Introduction: OSindex.md
+          - Tools:
+                - Commands (Incomplete): Linux/Tools/Cmd/Cmd.md
+                - System Calls: Linux/Tools/Syscall/Syscall.md
+                - GNU Toolchain:
+                      - gcc: Linux/Tools/GNU/gcc/gcc.md
+                      - gdb: Linux/Tools/GNU/gdb/gdb.md
+                      - make: Linux/Tools/GNU/make/make.md
+                      - flex: Linux/Tools/GNU/flex_yacc/flex.md
+          - Basic Knowledge:
+                - Concepts: Linux/SysConcept/SysConcept.md
+                - Processes:
+                      - Process Concepts: Linux/ProCon/ProCon.md
+                      - Process States: Linux/ProStatus/ProStatus.md
+                      - Process Control: Linux/ProCtrl/ProCtrl.md
+                      - Inter-process Communication: Linux/IPC/IPC.md
+                      - Daemon Processes: Linux/DaePro/DaePro.md
+                - Signals: Linux/Signal/signal.md
+                - Threads:
+                      - Thread Basics: Linux/Thread/Thread.md
+                      - Thread Synchronization: Linux/Thread/Sync.md
+                      - Thread Pool: Linux/Thread/Tpool.md
+                - File Systems:
+                      - Basic IO: Linux/FileSys/FileIO/FileIO.md
+                      - ext2 File System: Linux/FileSys/FileSys/FileSys.md
+                      - Virtual File System: Linux/FileSys/VFS/VFS.md
+                - I/O:
+                      - I/O Models: Linux/IO/IOmodel/model.md
+                      - Multiplexing: Linux/IO/Multiplexing/Multiplexing.md
+          - Others:
+                - Root Directory: Linux/others/root/root.md
+                - Environment Variables: Linux/others/envir/envir.md
+                - Dynamic & Static Libraries: Linux/others/Lib/Lib.md
+                - SheBang: Linux/others/sheBang/sheBang.md
+    - Network:
+          - Introduction: Network/index.md
+          - Terminology: Network/pro_term.md
+          - Application Layer:
+                - Overview: Network/Application/index.md
+                - HTTP: Network/Application/http.md
+                - DHCP: Network/Application/dhcp.md
+          - Transport Layer:
+                - Overview: Network/Transport/index.md
+                - UDP: Network/Transport/udp.md
+                - TCP: Network/Transport/tcp.md
+          - Network Layer:
+                - Overview: Network/network/index.md
+                - IPv4: Network/network/ip.md
+                - ICMP: Network/network/icmp.md
+          - Link Layer:
+                - Overview: Network/link/index.md
+                - Ethernet: Network/link/Ethernet.md
+          - Socket Programming:
+                - Basics: Network/basic/basic.md
+                - Custom Protocol: Network/socket/Custom.md
+                - Socket: Network/socket/socket.md
+    - C++:
+          - Introduction: C++/intro.md
+          - Basics: C++/c++初阶杂项.md
+          - Template Basics: C++/模板.md
+          - Inheritance & Polymorphism:
+                - Inheritance: C++/继承多态/继承.md
+                - Polymorphism: C++/继承多态/多态.md
+          - Memory Management: C++/内存管理/new&delete.md
+          - Exception Handling: C++/异常处理/异常.md
+          - Type Casting: C++/typeCast.md
+          - I/O Streams: C++/IO流/IO.md
+          - C++11:
+                - List Initialization: C++/c++11/列表初始化.md
+                - New Features for Classes: C++/c++11/类的新功能.md
+                - Type Declarations: C++/c++11/类型声明.md
+                - Raw Strings: C++/c++11/原始字符串.md
+                - Rvalue References & Move Semantics: C++/c++11/右值引用和移动语义.md
+                - Smart Pointers: C++/c++11/智能指针.md
+                - STL Changes (Incomplete): C++/c++11/STL.md
+                - Templates: C++/c++11/cppmate.md
+                - Multithreading: C++/c++11/多线程.md
+          - C++14:
+                - Templates: C++/c++14/cppmate.md
+                - decltype(auto): C++/c++14/decltype(auto).md
+          - C++17:
+                - Templates: C++/c++17/cppmate.md
+                - Filesystem: C++/c++17/filesystem.md
+                - if Statements: C++/c++17/ifstatement.md
+                - Structured Bindings: C++/c++17/StructBinding.md
+          - C++20:
+                - Semaphore: C++/c++20/semaphore/semaphore.md
+                - Format: C++/c++20/format/format.md
+          - cmake:
+                - Introduction: C++/CMake/HelloWorld.md
+                - Macros And Commands: C++/CMake/command.md
+          - C++ Memory Order: C++/MemoryOrder.md
+    - Rust:
+          - Introduction: Rust/index.md
+          - Concept:
+                - OnwnerShip: Rust/MainConcept/OnwnerShip.md
+    - Database:
+          - Introduction: DB/index.md
+          - SQL:
+                - Basic Operations: DB/SQL/BaseOp.md
+                - Table Operations: DB/SQL/Op.md
+                - Data Types: DB/SQL/DataType.md
+                - Table Constraints: DB/SQL/table/constraints.md
+                - CRUD Operations on Tables: DB/SQL/table/idsu.md
+                - MySQL Built-in Functions: DB/SQL/table/buildin_fun.md
+                - Composite Queries: DB/SQL/Query.md
+          - Database Storage: DB/storage/storage.md
+          - Memory Management: DB/BufferPool/BufferPool.md
+          - Access Methods:
+                - Hash Tables: DB/DS/HTable.md
+                - Tree Indexes: DB/DS/Bplus.md
+                - Index Concurrency Control: DB/DS/CC.md
+          - Operator Execution:
+                - Sorting & Aggregation Algorithms: DB/OpExe/sort.md
+                - Join Algorithms: DB/OpExe/join.md
+                - Query Processing: DB/OpExe/query.md
+                - Parallel Execution: DB/OpExe/pe.md
+                - Query Planning & Optimization: DB/OpExe/qo.md
+          - Concurrency Control:
+                - Theory: DB/CC/cct.md
+                - Two-Phase Locking: DB/CC/tpl.md
+                - Timestamp Ordering: DB/CC/TOCC.md
+                - Multi-Version Concurrency Control: DB/CC/MVCC.md
+          - Recovery And Logging:
+                - Logging Schemes: DB/recovery/log.md
+                - Database Crash Recovery: DB/recovery/recovery.md
+          - Distributed Databases:
+                - Introduction: DB/distributed/distributed.md
+                - Distributed OLTP: DB/distributed/OLTP.md
+                - Distributed OLAP: DB/distributed/OLAP.md
+          - RocksDB:
+                - Introduction: DB/rocksdb/intr.md
+                - MemTable: DB/rocksdb/memtable.md
+    - Distributed:
+          - Introduction: Distributed/index.md
+          - MapReduce: Distributed/MapReduce.md
+          - GFS: Distributed/gfs.md
+          - Raft: Distributed/raft.md
     - Others:
-      - Root Directory: Linux/others/root/root.md
-      - Environment Variables: Linux/others/envir/envir.md
-      - Dynamic & Static Libraries: Linux/others/Lib/Lib.md
-      - SheBang: Linux/others/sheBang/sheBang.md
-  - Network:
-    - Introduction: Network/index.md
-    - Terminology: Network/pro_term.md
-    - Application Layer:
-      - Overview: Network/Application/index.md
-      - HTTP: Network/Application/http.md
-      - DHCP: Network/Application/dhcp.md
-    - Transport Layer:
-      - Overview: Network/Transport/index.md
-      - UDP: Network/Transport/udp.md
-      - TCP: Network/Transport/tcp.md
-    - Network Layer:
-      - Overview: Network/network/index.md
-      - IPv4: Network/network/ip.md
-      - ICMP: Network/network/icmp.md
-    - Link Layer:
-      - Overview: Network/link/index.md
-      - Ethernet: Network/link/Ethernet.md
-    - Socket Programming:
-      - Basics: Network/basic/basic.md
-      - Custom Protocol: Network/socket/Custom.md
-      - Socket: Network/socket/socket.md
-  - C++:
-    - Introduction: C++/intro.md
-    - Basics: C++/c++初阶杂项.md
-    - Template Basics: C++/模板.md
-    - Inheritance & Polymorphism:
-      - Inheritance: C++/继承多态/继承.md
-      - Polymorphism: C++/继承多态/多态.md
-    - Memory Management: C++/内存管理/new&delete.md
-    - Exception Handling: C++/异常处理/异常.md
-    - Type Casting: C++/typeCast.md
-    - I/O Streams: C++/IO流/IO.md
-    - C++11:
-      - List Initialization: C++/c++11/列表初始化.md
-      - New Features for Classes: C++/c++11/类的新功能.md
-      - Type Declarations: C++/c++11/类型声明.md
-      - Raw Strings: C++/c++11/原始字符串.md
-      - Rvalue References & Move Semantics: C++/c++11/右值引用和移动语义.md
-      - Smart Pointers: C++/c++11/智能指针.md
-      - STL Changes (Incomplete): C++/c++11/STL.md
-      - Templates: C++/c++11/cppmate.md
-      - Multithreading: C++/c++11/多线程.md
-    - C++14:
-      - Templates: C++/c++14/cppmate.md
-      - decltype(auto): C++/c++14/decltype(auto).md
-    - C++17:
-      - Templates: C++/c++17/cppmate.md
-      - Filesystem: C++/c++17/filesystem.md
-      - if Statements: C++/c++17/ifstatement.md
-      - Structured Bindings: C++/c++17/StructBinding.md
-    - C++20:
-      - Semaphore: C++/c++20/semaphore/semaphore.md
-      - Format: C++/c++20/format/format.md
-    - cmake:
-      - Introduction: C++/CMake/HelloWorld.md
-      - Macros And Commands: C++/CMake/command.md
-    - C++ Memory Order: C++/MemoryOrder.md
-  - Rust:
-    - Introduction: Rust/index.md
-    - Concept:
-      - OnwnerShip: Rust/MainConcept/OnwnerShip.md
-  - Database:
-    - Introduction: DB/index.md
-    - SQL:
-      - Basic Operations: DB/SQL/BaseOp.md
-      - Table Operations: DB/SQL/Op.md
-      - Data Types: DB/SQL/DataType.md
-      - Table Constraints: DB/SQL/table/constraints.md
-      - CRUD Operations on Tables: DB/SQL/table/idsu.md
-      - MySQL Built-in Functions: DB/SQL/table/buildin_fun.md
-      - Composite Queries: DB/SQL/Query.md
-    - Database Storage: DB/storage/storage.md
-    - Memory Management: DB/BufferPool/BufferPool.md
-    - Access Methods:
-      - Hash Tables: DB/DS/HTable.md
-      - Tree Indexes: DB/DS/Bplus.md
-      - Index Concurrency Control: DB/DS/CC.md
-    - Operator Execution:
-      - Sorting & Aggregation Algorithms: DB/OpExe/sort.md
-      - Join Algorithms: DB/OpExe/join.md
-      - Query Processing: DB/OpExe/query.md
-      - Parallel Execution: DB/OpExe/pe.md
-      - Query Planning & Optimization: DB/OpExe/qo.md
-    - Concurrency Control:
-      - Theory: DB/CC/cct.md
-      - Two-Phase Locking: DB/CC/tpl.md
-      - Timestamp Ordering: DB/CC/TOCC.md
-      - Multi-Version Concurrency Control: DB/CC/MVCC.md
-    - Recovery And Logging:
-      - Logging Schemes: DB/recovery/log.md
-      - Database Crash Recovery: DB/recovery/recovery.md
-    - Distributed Databases:
-      - Introduction: DB/distributed/distributed.md
-      - Distributed OLTP: DB/distributed/OLTP.md
-      - Distributed OLAP: DB/distributed/OLAP.md
-    - RocksDB:
-      - Introduction: DB/rocksdb/intr.md
-      - MemTable: DB/rocksdb/memtable.md
-      - Memory usage in RocksDB: DB/rocksdb/memory_usage.md
-  - Distributed:
-    - Introduction: Distributed/index.md
-    - MapReduce: Distributed/MapReduce.md
-    - GFS: Distributed/gfs.md
-  - Others:
-    - Git:
-      - Introduction: Others/Git/index.md
-    - JSON:
-      - Introduction: Others/JSON/index.md
-    - xmake:
-      - Introduction: Others/xmake/index.md
-      - xmake.lua Syntax: Others/xmake/config.md
-    - Smart Pointer Discussion: Others/SPoiner.md
-    # - Interviews:
-    #   - Self Introduction: Others/interview/ps.md
-    #   - C++: Others/interview/Cpp.md
-
+          - Git:
+                - Introduction: Others/Git/index.md
+          - JSON:
+                - Introduction: Others/JSON/index.md
+          - xmake:
+                - Introduction: Others/xmake/index.md
+                - xmake.lua Syntax: Others/xmake/config.md
+          - Smart Pointer Discussion: Others/SPoiner.md
+      # - Interviews:
+      #   - Self Introduction: Others/interview/ps.md
+      #   - C++: Others/interview/Cpp.md
 
 theme:
-  name: material
-  palette: 
-    primary: white
-  language: zh
-  custom_dir: overrides/
-  favicon: Web_icon.svg
-  features: 
-    - content.code.select
-    - content.code.copy
-    - navigation.instant
-    - navigation.tabs
-    - navigation.path
-    - navigation.instant.progress
-    - navigation.footer
-    - content.tabs.link
-    - search.highlight
-  icon:
-    admonition:
-      code: material/note-alert
-    logo: Web_icon
-    repo: repo_icon
-
+    name: material
+    palette:
+        primary: white
+    language: zh
+    custom_dir: overrides/
+    favicon: Web_icon.svg
+    features:
+        - content.code.select
+        - content.code.copy
+        - navigation.instant
+        - navigation.tabs
+        - navigation.path
+        - navigation.instant.progress
+        - navigation.footer
+        - content.tabs.link
+        - search.highlight
+    icon:
+        admonition:
+            code: material/note-alert
+        logo: Web_icon
+        repo: repo_icon
 
 markdown_extensions:
-  - def_list
-  - pymdownx.tasklist:
-      custom_checkbox: true
-      clickable_checkbox: true
-  - admonition
-  - pymdownx.details
-  - pymdownx.superfences
-  - attr_list
-  - md_in_html
-  - pymdownx.arithmatex:
-      generic: true
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-  - pymdownx.highlight
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
-  - pymdownx.tabbed:
-      alternate_style: true 
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-      options:
-        custom_icons:
-          - overrides/.icons
-    
+    - def_list
+    - pymdownx.tasklist:
+          custom_checkbox: true
+          clickable_checkbox: true
+    - admonition
+    - pymdownx.details
+    - pymdownx.superfences
+    - attr_list
+    - md_in_html
+    - pymdownx.arithmatex:
+          generic: true
+    - pymdownx.highlight:
+          anchor_linenums: true
+          line_spans: __span
+          pygments_lang_class: true
+    - pymdownx.highlight
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.tabbed:
+          alternate_style: true
+    - pymdownx.emoji:
+          emoji_index: !!python/name:material.extensions.emoji.twemoji
+          emoji_generator: !!python/name:material.extensions.emoji.to_svg
+          options:
+              custom_icons:
+                  - overrides/.icons
+
 extra_javascript:
-  - javascripts/mathjax.js
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+    - javascripts/mathjax.js
+    - https://polyfill.io/v3/polyfill.min.js?features=es6
+    - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 extra_css:
-  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
+    - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
 
 extra:
-  social: 
-    - icon: fontawesome/brands/github
-      link: https://github.com/2418071565/2418071565.github.io.git
-    - icon: fontawesome/solid/paper-plane
-      link: mailto:idlecyb@163.com
-
-
+    social:
+        - icon: fontawesome/brands/github
+          link: https://github.com/2418071565/2418071565.github.io.git
+        - icon: fontawesome/solid/paper-plane
+          link: mailto:idlecyb@163.com
