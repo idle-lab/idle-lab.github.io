@@ -116,15 +116,42 @@ leader 永远不会删除或覆盖它自己的 log entry（对应 Figure 3 的 L
 
 在任何基于 leader 的共识算法中，leader 最终都要包含所有已经提交的 log entry，在一些共识算法中，如：Viewstamped replication revisited，即使一个服务器最初没有还包含所有已提交的日志条目，它也可以被选举为 leader。这些算法有额外的机制来识别确实的日志条目，并在选举时或选举完成后的很短的时间里，将它们传输给新的 leader。不幸的是，这需要引入相当多的额外的机制，大大增加了复杂性。
 
-Raft 使用了一种更简单的方法，**只有拥有所有已经被提交的 log entry 的 candidate 才能被选举为 leader**。这意味着日志条目仅单向流动：从 leader 到 follower，且 leader 永远不会覆写它的日志中已存在的条目。
-
-Raft 通过比较日志最后一个条目的 index 和 term 来确定哪个日志更新。如果日志最后个条目的 term 不同，那么有更新的 term 的日志更新。如果两个日志最后的 term 相同，那么更长的日志更新。
+Raft 使用了一种更简单的方法，只有拥有最新 log entry 的 candidate 才能被选举为 leader，拥有更新的任期号的 log entry 更新，如果任期号相同，那么索引越大的越新，因为只有获得大多数投票才能当选，且一个被认定为被提交的 log entry 是已经被赋值到大多数节点上了，所以可以当选的 candidate 一定是拥有最新已经被提交的 log entry 的节点。这也意味着 log entry 仅单向流动：从 leader 到 follower，且 leader 永远不会覆写它的日志中已存在的条目。
 
 #### 5.4.2 Committing entries from previous terms
 
-如第 5.3 节所述，leader 知道，一旦当前任期内的一个 log entry 存储在大多数服务器上，该 entry 就是已提交的。如果领导者在提交条目前崩溃，未来的领导者将尝试完成条目的复制。然而新的 leader 不能马上知道上一个任期的 log entry 是否已经存储到集群的大多数机器上，Figure 8 说明了这样一种情况：旧日志条目存储在大多数服务器上，但仍可能被未来的领导者覆盖
+如第 5.3 节所述，leader 知道，一旦当前任期内的一个 log entry 存储在大多数服务器上，该 entry 就是已提交的。如果领导者在提交条目前崩溃，未来的领导者将尝试完成条目的复制。然而新的 leader 不能通过副本数来提交上一个任期中的 log entry，Figure 8 说明了这样一种情况：
 
 <figure markdown="span">
     ![alt text](image-9.png){ width="450" }
 </figure>
+
+情况 C 中当重新当选的 S1 将任期 2 的日志复制到大多数的节点中，如果此时 S1 将它提交，但是在通知其他 follower 前崩溃了，那么 S5 就有机会当选，当 S5 当选后，就会把 任期 3 的日志重新赋值并提交，导致 S1 中已经提交的任期 2 中的日志被覆盖。所以一个新的 leader 是不能通过日志的副本数来提交上一个任期内的日志。
+
+为了解决这个问题，Raft 只运行 leader 提交当前任期内已经复制到大多数机器上的日志，因为有 Log Matching Property，所以上一个任期中的日志会顺带被提交，之前任期中的日志新 leader 只能拷贝，不能提交。
+
+#### 5.4.3 Safety argument
+
+这部分是 Raft 的安全性证明，可以参考原文。
+
+### 5.5 Follower and candidate crashes
+
+目前我们都专注于 leader 故障的情况。处理 follwer 和 candidate 崩溃比处理 leader 崩溃简单得多，且这二者的故障可以用相同的方式处理。如果一个 follower 或 candidate 故障，那么之后发送到它的 RequestVote 和 AppendEntries RPC 会失败。Raft通过无限重试来处理这些故障；如果崩溃的服务器重启，那么RPC将会成功完成。如果服务器在完成RPC后但在响应前故障，那么在它重启后会收到相同的 RPC。Raft 的 RPC 是幂等的，所以这不会造成影响。例如，如果一个 follower 收到了一个包含了已经在它日志中的条目的 AppendEntries，它会忽略新请求中的那些条目。
+
+### 5.6 Timing and availability
+
+我们对 Raft 的要求之一是安全性决不能依赖定时：系统绝不能因某个时间发生的比预期的更快或更慢而产生错误的结果。但可用性（系统能够及时响应客户端的能力）不得不依赖与时间，例如，如果崩溃服务器间的消息交换消耗了比通常更长的时间，candidate将不会保持足够的时间以赢得选举。没有稳定的 leader，Raft 就不能处理任何请求。
+
+所以尽管 Raft 对于事件发生的先后没有要求，但是对于一些事件的事件消耗有一定的限制：
+
+$$
+broadcastTime \ll electionTimeout \ll MTBF 
+$$
+
+$broadcatTime$ 是广播时间，即服务器将RPC并行地发送给集群中的每个服务器并收到它们的响应的平均时间，$electionTimeout$ 是 5.2 节中描述的选举超时时间，$MTBF$ 是故障发生的平均时间。
+
+$broadcastTime$ 应该比 $electionTimeout$ 小一个数量级，这样leader可以可靠的发送心跳消息以阻止选举发生；因为 $exectionTimeout$ 采用了随机方法，这一不等性也让投票决裂不太可能发生。$electionTimeout$ 应该比 $MTBF$ 小几个数量级，这样系统能够取得稳定的进展。当leader崩溃时，系统将会在大概 $electionTime$ 的时间内不可用，我们想让这一时间仅占总时间的很小的比例。
+
+## 6 Cluster membership changes
+
 
