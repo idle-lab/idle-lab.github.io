@@ -162,6 +162,7 @@ nav:
           - Introduction: Rust/index.md
           - Concept:
                 - OnwnerShip: Rust/MainConcept/OnwnerShip.md
+                - Struct: Rust/MainConcept/Struct.md
     - Database:
           - Introduction: DB/index.md
           - SQL:
