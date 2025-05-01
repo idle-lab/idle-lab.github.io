@@ -205,6 +205,8 @@ nav:
           - MapReduce: Distributed/MapReduce.md
           - GFS: Distributed/gfs.md
           - Raft: Distributed/raft.md
+          - Testing Distributed Systems for Linearizability: Distributed/tdsl.md
+
     - Others:
           - Git:
                 - Introduction: Others/Git/index.md
