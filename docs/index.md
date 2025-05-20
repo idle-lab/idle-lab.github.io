@@ -4,17 +4,15 @@ comments: true
 
 # Introduction
 
-## 👋 关于我 | About Me
+### 👋 关于我 | About Me
 
-- 🔭 我现在就读与宁波大学；
+- 🔭 I am currently working at ![Static Badge](https://img.shields.io/badge/-Tencent%20Cloud-333333?logo=qq).
 
-- 💬 这里是我的博客网站 [![Static Badge](https://img.shields.io/badge/Made%20By%20CYB-black?logo=github)](https://idle-lab.github.io/ )；
+- 🌱 I’m currently learning [![Static Badge](https://img.shields.io/badge/-rust-333333?logo=rust&logoColor=%23FA3C00)](https://rustwiki.org/zh-CN/book/title-page.html).
 
-- 🌱 目前我正在学习 CMU 15-445 [![Static Badge](https://img.shields.io/badge/CMU-%23E4202E?logo=databricks&label=15-445)](https://15445.courses.cs.cmu.edu/fall2023/)；
+- ⚡ Favorite field: C/C++ and DataBase.
 
-- ⚡ 最喜欢的领域:  C++ and 数据库（还只是菜鸟）；
-
-## 🛠 技术栈 | Tech Stack
+### 🛠 技术栈 | Tech Stack
 
 - 💻 &#160; ![C++](https://img.shields.io/badge/C%2B%2B-333333?logo=cplusplus&logoColor=%2300599C)
 ![Static Badge](https://img.shields.io/badge/Linux-333333?logo=Linux&logoColor=%23FCC624)

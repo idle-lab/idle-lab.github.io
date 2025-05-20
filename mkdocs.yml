@@ -206,7 +206,7 @@ nav:
           - GFS: Distributed/gfs.md
           - Raft: Distributed/raft.md
           - Testing Distributed Systems for Linearizability: Distributed/tdsl.md
-
+          - ZooKeeper: Distributed/zk.md
     - Others:
           - Git:
                 - Introduction: Others/Git/index.md

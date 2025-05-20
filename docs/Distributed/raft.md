@@ -218,7 +218,7 @@ $broadcastTime$ 应该比 $electionTimeout$ 小一个数量级，这样leader可
 
 - 任一个配置的任何服务器都可能成为leader。
 
-- 一致（用来选举和日志条目提交）需要在旧配置和新配置中的大多数分别达成。
+- 共识（用来选举和日志条目提交）需要在旧配置和新配置中的大多数分别达成。
 
 联合共识让每个服务器能在不同时间切换配置而不需要做出安全性妥协。另外，联合共识让集群能够在配置变更时继续为客户端请求提供服务。
 
@@ -227,8 +227,10 @@ $broadcastTime$ 应该比 $electionTimeout$ 小一个数量级，这样leader可
 <figure markdown="span">
 ![alt text](image-11.png){ width="450" }
 </figure>
+ 
+这意味着leader会使用 $C_{old,new}$ 的规则来决定什么时候 $C_{old,new}$ 的日志条目被提交。如果leader崩溃，新的leader可能在 $C_{old}$ 或 $C_{old,new}$ 下被选举出，这取决于赢得选举的candidate有没有收到 $C_{old,new}$ 。这期间的任何情况下， $C_{new}$ 都不能单独做决策。
 
-这意味着leader会使用$C_{old,new}$的规则来决定什么时候$C_{old,new}$的日志条目被提交。如果leader崩溃，新的leader可能在$C_{old}$或$C_{old,new}$下被选举出，这取决于赢得选举的candidate有没有收到$C_{old,new}$。这期间的任何情况下，$C_{new}$都不能单独做决策。
+
 
 ## 7 Log compaction
 
