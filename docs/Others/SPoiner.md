@@ -94,8 +94,6 @@ F(std::make_shared<Lhs>("foo"), std::make_shared<Rhs>("bar"));
 
 参考：
 
-[智能指针 Made By CYB](https://2418071565.github.io/C%2B%2B/c%2B%2B11/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/){target="_blank"}
-
 [GotW #89 Solution: Smart Pointers](https://herbsutter.com/2013/05/29/gotw-89-solution-smart-pointers/){target="_blank"}
 
 [Difference in make_shared and normal shared_ptr in C++](https://stackoverflow.com/questions/20895648/difference-in-make-shared-and-normal-shared-ptr-in-c){target="_blank"}

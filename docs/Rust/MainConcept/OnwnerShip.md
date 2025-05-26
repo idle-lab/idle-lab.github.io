@@ -1,3 +1,6 @@
+---
+comments: true
+---
 
 ## **What Is Ownership?**
 
@@ -51,7 +54,7 @@ let mut s = String::from("hello");
 let r2 = &mut s;
 ```
 
-If you want modify the value, you can use `&mut` to get a mutable references.With the lifetimes concept that we will discuss in the following chapters, we can check the *Dangling References* during compilation period. 
+If you want modify the value, you can use `&mut` to get a mutable references. But in the same scope, a variable can only have one mutable reference. With the lifetimes concept that we will discuss in the following chapters, we can check the *Dangling References* during compilation period. 
 
 ```rust
 fn main() {
@@ -121,3 +124,4 @@ There's nothing to say.
 
 The ownership concept provides a different way to manage memory that safer than C++ and more efficient than Java or golang.I think this design is very genius.
 
+---
