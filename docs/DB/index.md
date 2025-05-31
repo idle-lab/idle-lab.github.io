@@ -110,7 +110,7 @@
   }
 ```
 
-再遍历每一个列，判断列是否有 window_function，没有的话直接记录所有 tuple 对应列的值，否则进行 window_function 的运算，然后再根据 `(partition_by_, order_exprs)` 排序，这样 partition key 相同的 tuple 就被划分到了一起，整个元组也按照 order key 排序好了，然后在对应相同的 partition，进行聚会操作即可。
+再遍历每一个列，判断列是否有 window_function，没有的话直接记录所有 tuple 对应列的值，否则进行 window_function 的运算，然后再根据 `(partition_by_, order_exprs)` 排序，这样 partition key 相同的 tuple 就被划分到了一起，整个元组也按照 order key 排序好了，然后在对应相同的 partition，进行聚合操作即可。
 
 ```cpp
   auto wf_ptr = plan_->window_functions_.find(i);
@@ -137,7 +137,7 @@
 
 需要注意的是，当 PARTITION BY 和 ORDER BY 都被定义时，对应每个 partition 内，应该对累计值求聚合函数，但如果没提供 ORDER BY，每个 partition 都是整个部分求聚合函数，可以看看实验指导上的例子。聚合这部分代码有点长就不贴了。
 
-### **Project#4 -- Concurrency Control**
+### **Project 4 -- Concurrency Control**
 
 实现 MV + OCC 的并发控制协议，实现了 Snapshot level 的隔离，支持 read-write、write-read、read-read 的并行执行。
 

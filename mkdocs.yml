@@ -10,13 +10,13 @@ nav:
           - HOBBY😋: hobbies.md
           - TODO 🧾: TODO.md
     - DSA:
-          - Introduction: DS_Algo.md
+          - Intro: DS_Algo.md
           - Algorithms:
                 - Dynamic Programming (Incomplete):
                       - Knapsack Problem: Algorithm/DP/Knapsack/Knapsack.md
                 - Binary Lifting: Algorithm/BinaryLifting/BinaryLifting.md
                 - Sorting (Incomplete):
-                      - Introduction: Algorithm/Sort/Sort.md
+                      - Intro: Algorithm/Sort/Sort.md
                       - Bubble Sort: Algorithm/Sort/BubbleSort/Bubble.md
           - Strings:
                 - Trie: String/Trie/Trie.md
@@ -65,7 +65,7 @@ nav:
                 - Integer Partition: UsualQ/IntPartition/IntPartition.md
                 - Maximum Subarray Sum: UsualQ/MaxSumOfSub/MaxSumOfSub.md
     - OS:
-          - Introduction: OSindex.md
+          - Intro: OSindex.md
           - Tools:
                 - Commands (Incomplete): Linux/Tools/Cmd/Cmd.md
                 - System Calls: Linux/Tools/Syscall/Syscall.md
@@ -100,7 +100,7 @@ nav:
                 - Dynamic & Static Libraries: Linux/others/Lib/Lib.md
                 - SheBang: Linux/others/sheBang/sheBang.md
     - Network:
-          - Introduction: Network/index.md
+          - Intro: Network/index.md
           - Terminology: Network/pro_term.md
           - Application Layer:
                 - Overview: Network/Application/index.md
@@ -123,7 +123,7 @@ nav:
                 - Socket: Network/socket/socket.md
     - Programming Languages:
       - C++:
-            - Introduction: C++/intro.md
+            - Intro: C++/intro.md
             - Basics: C++/c++初阶杂项.md
             - Template Basics: C++/模板.md
             - Inheritance & Polymorphism:
@@ -156,16 +156,17 @@ nav:
                   - Format: C++/c++20/format/format.md
             - C++ Memory Order: C++/MemoryOrder.md
             - cmake:
-                  - Introduction: C++/CMake/HelloWorld.md
+                  - Intro: C++/CMake/HelloWorld.md
                   - Macros And Commands: C++/CMake/command.md
       - Rust:
-            - Introduction: Rust/index.md
+            - Intro: Rust/index.md
             - Concept:
                   - OnwnerShip: Rust/MainConcept/OnwnerShip.md
                   - Struct: Rust/MainConcept/Struct.md
     - Course:
+      - Intro: course.md
       - CMU 15-445:
-            - Introduction: DB/index.md
+            - Intro: DB/index.md
             - SQL:
                   - Basic Operations: DB/SQL/BaseOp.md
                   - Table Operations: DB/SQL/Op.md
@@ -195,26 +196,29 @@ nav:
                   - Logging Schemes: DB/recovery/log.md
                   - Database Crash Recovery: DB/recovery/recovery.md
             - Distributed Databases:
-                  - Introduction: DB/distributed/distributed.md
+                  - Intro: DB/distributed/distributed.md
                   - Distributed OLTP: DB/distributed/OLTP.md
                   - Distributed OLAP: DB/distributed/OLAP.md
             - RocksDB:
-                  - Introduction: DB/rocksdb/intr.md
+                  - Intro: DB/rocksdb/intr.md
                   - MemTable: DB/rocksdb/memtable.md
       - MIT 6.824:
-            - Introduction: Distributed/index.md
+            - Intro: Distributed/index.md
             - MapReduce: Distributed/MapReduce.md
             - GFS: Distributed/gfs.md
             - Raft: Distributed/raft.md
             - Testing Distributed Systems for Linearizability: Distributed/tdsl.md
             - ZooKeeper: Distributed/zk.md
+    - Paper:
+      - Intro: paper/index.md
+      - WiscKey: paper/WiscKey/WiscKey.md
     - Others:
           - Git:
-                - Introduction: Others/Git/index.md
+                - Intro: Others/Git/index.md
           - JSON:
-                - Introduction: Others/JSON/index.md
+                - Intro: Others/JSON/index.md
           - xmake:
-                - Introduction: Others/xmake/index.md
+                - Intro: Others/xmake/index.md
                 - xmake.lua Syntax: Others/xmake/config.md
           - Smart Pointer Discussion: Others/SPoiner.md
 
