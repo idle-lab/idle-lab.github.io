@@ -210,8 +210,15 @@ nav:
             - Testing Distributed Systems for Linearizability: Distributed/tdsl.md
             - ZooKeeper: Distributed/zk.md
     - Paper:
-      - Intro: paper/index.md
-      - WiscKey: paper/WiscKey/WiscKey.md
+            - Intro: paper/index.md
+            - WiscKey: paper/WiscKey/WiscKey.md
+    - Cloud:
+            - Intro: cloud/index.md
+            - etcd: 
+                  - Intro: cloud/etcd/etcd.md
+                  # - etcd-raft: cloud/etcd/etcd-raft.md
+            - Kubernetes:
+                  - Intro: cloud/k8s/k8s.md
     - Others:
           - Git:
                 - Intro: Others/Git/index.md
