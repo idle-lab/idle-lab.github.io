@@ -626,5 +626,37 @@ RDD（Resilient Distributed Dataset）叫做弹性分布式数据集，是Spark�
 
 ![alt text](image-27.png)
 
+## Hive
+
+### 数据仓库
+
+数据仓库：数据仓库（Data Warehouse）是一个面向主题的（Subject Oriented）、集成的（Integrated）、相对稳定的（Non-Volatile）、反映历史变化（Time Variant）的数据集合，用于**支持管理决策**。
+
+![alt text](image-28.png)
+
+数据仓库中的数据是相对稳定的，是大量的历史数据，从数据源中加载到数据仓库后，就不在变化了。通过一些数据分析工具（OLAP 数据库等），得到数据报表等，来支撑企业的决策。
+
+Hive 依赖分布式文件系统HDFS存储数据，依赖分布式并行计算模型 MapReduce 处理数据，依赖分布式文件系统 HDFS 存储数据。
+
+Hive 本身不支持数据存储和处理，只提供一种 HiveQL （类似 SQL）的语言来定义计算过程。
+Hive 特性：
+
+- 采用批处理方式处理海量数据：Hive 会将 HiveQL 转化为 MapReduce 任务来进行运行。
+
+
+- 提供适合数据仓库操作的工具
+
+
+### 系统架构
+
+![alt text](image-29.png)
+
+- 用户接口模块包括CLI（命令行工具）、HWI（Hive Web Interface）、JDBC、ODBC、Thrift Server（RPC 调用）
+
+- 驱动模块（Driver）包括编译器、优化器、执行器等，负责把HiveSQL语句转换成一系列MapReduce作业
+
+- 元数据存储模块（Metastore）是一个独立的关系型数据库（自带derby数据库，或MySQL数据库）
+
+
 
 
