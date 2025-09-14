@@ -91,13 +91,14 @@ message KeyValue {
 
 - 在 applyAll 应用日志时会判断，是否达到生产快照的阈值（每 10000 条写一次磁盘，每 1000 条在内存生成一次日志），若到达阈值，则开始进行 snapshot；
 
-- 先调用 s.KV().Commit() 将出入 pending 的写入任务提交，保证快照时 backend 的 consistent_index 已经更新；
+- 先调用 s.KV().Commit() 将 pending 的写入任务提交，保证快照时 backend 的 consistent_index 已经更新；
 
 - 然后创建集群信息的快照，如果需要写磁盘，就将快照写入磁盘；
 
 - 最后要压缩 wal 文件，丢弃快照 index 之前的日志。
 
 这里与常规 snapshot 不同的是 etcd 增加了一种内存快照，他的作用是提高集群成员间的同步速度，leader 可以给落后的 follower 最新的数据，内存快照还不需要频繁的写磁盘，生产内存快照后，就可以截断内存中的 log entries 数组了，可以减少内存中需要保留的日志条数，降低内存占用；内存快照并不影响持久化和恢复，当崩溃后，可以从磁盘中读到上次磁盘快照的写入的数据。
+
 
 崩溃恢复的逻辑如下：
 
@@ -111,24 +112,183 @@ message KeyValue {
 
 - 根据 MemoryStorage 初始化 etcdProgress，随后 etcd 成功启动。
 
-<!-- ## 鉴权 -->
+## Auth
+
+etcd 支持用户验证，以下是一些基础命令：
+
+```shell
+# 创建角色
+etcdctl role add <role-name>
+# 创建用户
+etcdctl user add <username>
+# 给用户授权
+etcdctl user grant-role <username> <role-name>
+# 开启认证
+etcdctl auth enable
+```
+
+etcd 存储着 Kubernetes 集群的所有配置和状态信息，这些信息对于集群的安全性和稳定性至关重要。启用用户验证能够确保只有经过身份验证的用户或服务才能访问和修改这些重要数据。
+
+## 存储
+
+etcd 中除了要存储 kv 数据，还要存储集群间的数据、raft 算法中提到的数据以及状态信息等等，东西很多也很乱，这里来梳理一下
+
+吐槽一下：既然已经升级 v3 了，还用 v2Store 存了好多元数据，命名也不改，都不知道是存什么的了:(。
+
+### v2Store
+
+- Name: AdvertiseClientURLs，集群名字和客户端 URLs，`attributes membership.Attributes`
+
+目前我只找到这个，这个 v2Store 非常零散
+
+### raftpb.snapshot
+
+- metadata：这个是快照的 Index 和 Term，这个数据也会被存储 WAL 中，还有集群的配置信息 raft.pb.ConfState，记录了集群中 Voter 节点、Learner 节点等信息。
+
+- Data：是 v2Store 中存储的数据。
+
+### raft.MemoryStorage
+
+- rafttpb.hardState：Term、Vote、CommitIndex
+
+- snapshot：raftpb.Snapshot
+
+- ents：内存中的 raft log，每次 ready 返回的 `rd.entries` 都会被加入到该 log 数组中。
+
+该类的数据都不会被持久化到磁盘中。
+
+### WAL
+
+WAL 有五种 Record 类型说明如下表：
+
+| 类型           | 结构体/内容         | 说明                                                         |
+|----------------|---------------------|--------------------------------------------------------------|
+| metadataType   | pb.Metadata         | 包括 NodeID、ClusterID，每个 WAL 文件开头都包含此信息         |
+| entryType      | raft log            | raft 日志条目                                                |
+| stateType      | raftpb.HardState       | raft 算法需持久化的状态：Term、Vote、CommitIndex              |
+| crcType        | 校验码              | 用于数据完整性校验                                            |
+| snapshotType   | walpb.Snapshot      | 快照元数据，包括快照的 Index 和 Term                         |
+
+### Storage
+
+包含两部分：
+
+- wal.WAL：上面提到了，就是记录 raft 日志以及一些辅助数据；每次 ready 返回的 `rd.entries` 如果需要（通过 `shouldWaitWALSync` 判断），就会被写入 WAL 中，顺带的也会持久化 `raftpb.HardStat`。
+
+- snap.Snapshotter：负责快照读写的类，它通过 `SaveSnap` 将 `raftpb.Snapshot` 写入磁盘，代码逻辑如下：
+
+```go
+fname := fmt.Sprintf("%016x-%016x%s", snapshot.Metadata.Term, snapshot.Metadata.Index, snapSuffix)
+b := pbutil.MustMarshal(snapshot)
+crc := crc32.Update(0, crcTable, b)
+snap := snappb.Snapshot{Crc: crc, Data: b}
+d, err := snap.Marshal()
+if err != nil {
+	return err
+}
+
+spath := filepath.Join(s.dir, fname)
+err = pioutil.WriteAndSyncFile(spath, d, 0666)
+```
 
 
+### 快照出发点逻辑
 
-<!-- ## Watch
+
+磁盘快照由 `triggerSnapshot` 触发，逻辑如下：
+
+```go
+func (s *EtcdServer) triggerSnapshot(ep *etcdProgress) {
+	if ep.appliedi-ep.snapi <= s.Cfg.SnapshotCount {
+		return
+	}
+
+	//...
+
+	s.snapshot(ep.appliedi, ep.confState)
+	ep.snapi = ep.appliedi
+}
+```
+
+`SnapshotCount` 默认 10000。当 append 的日志条数超过 `SnapshotCount` 时，就会触发磁盘快照。 `snapshot` 实现具体：
+
+```go
+func (s *EtcdServer) snapshot(snapi uint64, confState raftpb.ConfState) {
+	clone := s.v2store.Clone()
+
+	// 等待 bbolt db 将 pending 的写入任务提交
+	s.KV().Commit()
+	
+	// 启动一个 goroutine
+	s.goAttach(func() {
+		d, err := clone.SaveNoCopy()
+		if err != nil {
+			// log
+		}
+
+		snap, err := s.r.raftStorage.CreateSnapshot(snapi, &confState, d)
+		if err != nil {
+			// log
+		}
+
+		// 保存到磁盘
+		if err = s.r.storage.SaveSnap(snap); err != nil {
+			// log
+		}
+
+		// 释放比当前 snap 旧的快照
+		if err = s.r.storage.Release(snap); err != nil {
+			// log	
+		}
+
+		// keep some in memory log entries for slow followers.
+		compacti := uint64(1)
+		if snapi > s.Cfg.SnapshotCatchUpEntries {
+			compacti = snapi - s.Cfg.SnapshotCatchUpEntries
+		}
+
+		err = s.r.raftStorage.Compact(compacti)
+		
+		// ...
+	})
+}
+```
 
 
-## etcd Learner
+## Cmd
 
-## 2AZ 容灾
+```shell
+$ etcdctl endpoint status --endpoints=127.0.0.1:2379 -w table
++-----------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+|    ENDPOINT     |        ID        | VERSION | DB SIZE | IS LEADER | IS LEARNER | RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |
++-----------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+| 127.0.0.1:22379 | 91bc3c398fb3c146 |  3.4.37 |  3.8 MB |      true |      false |         6 |      43141 |              43141 |        |
++-----------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+```
 
-## Task
-
-- 三节点 etcd 集群，加 learner 节点，
-
-![alt text](<截屏2025-06-11 11.26.06.png>)
-
-![alt text](image-3.png)
-
-- 设计方案，裁剪 etcd 代码，修改重放日志逻辑 
--->
+```
+Process(ctx context.Context, m raftpb.Message) error
+						| 1
+						|
+  Step(ctx context.Context, msg pb.Message) error
+						| 2
+						|
+stepWithWaitOption(ctx context.Context, m pb.Message, wait bool) error
+						| 3
+						|
+		n.propc <- msgWithResult{m: m}
+						| 4
+						|
+			Step(m pb.Message) error
+						| 5
+						|
+		stepLeader\stepCandidate\stepFollower
+						| 6
+						|
+		readyc <- (rd := n.rn.readyWithoutAccept())
+						| 7
+						|
+				 rd := <-r.Ready()
+						| 8
+						|
+```

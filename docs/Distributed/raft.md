@@ -222,7 +222,10 @@ $broadcastTime$ 应该比 $electionTimeout$ 小一个数量级，这样 leader �
 ![alt text](image-11.png){ width="450" }
 </figure>
  
-这意味着leader会使用 $C_{old,new}$ 的规则来决定什么时候 $C_{old,new}$ 的日志条目被提交。如果leader崩溃，新的leader可能在 $C_{old}$ 或 $C_{old,new}$ 下被选举出，这取决于赢得选举的candidate有没有收到 $C_{old,new}$ 。这期间的任何情况下， $C_{new}$ 都不能单独做决策。
+leader 收到配置变更的请求后，会将配置切换为 $C_{old,new}$，这意味着 leader 会使用 $C_{old,new}$ 的规则来决定什么时候 $C_{old,new}$ 的日志条目被提交。如果 leader 崩溃，新的 leader 可能在 $C_{old}$ 或 $C_{old,new}$ 下被选举出，这取决于赢得选举的candidate有没有收到 $C_{old,new}$ 。这期间的任何情况下， $C_{new}$ 都不能单独做决策。
+
+一旦 $C_{old,new}$ 被提交，所有日志的提交请求都要经过 $C_{old}$ 和 $C_{new}$ 两个集群配置的大多数同意，领导完整性特性保证了只有复制了 $C_{old,new}$ 的节点才能被选举为 leader。$C_{old,new}$ 被提交之后，leader 会创建 $C_{new}$ 的条目，然后切换到 $C_{new}$，当 $C_{new}$ 被提交后，旧配置就不重要了，不在新集群的节点就可以关闭了。
+
 
 ## 7 Log compaction
 

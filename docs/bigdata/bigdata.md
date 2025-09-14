@@ -34,6 +34,31 @@ hdfs 的实现目的是：1. 兼容廉价硬件设备、2. 实现流数据读写
 
 ![alt text](image-4.png)
 
+### *采用块的好处
+
+HDFS采用抽象的块概念可以带来以下几个明显的好处：
+
+- **支持大规模文件存储**：文件以块为单位进行存储，一个大规模文件可以被分拆成若干个文件块，不同的文件块可以被分发到不同的节点上，因此，一个文件的大小不会受到单个节点的存储容量的限制，可以远远大于网络中任意节点的存储容量
+
+
+- **简化系统设计**：首先，大大简化了存储管理，因为文件块大小是固定的，这样就可以很容易计算出一个节点可以存储多少文件块；其次，方便了元数据的管理，元数据不需要和文件块一起存储，可以由其他系统负责管理元数据
+
+
+- **适合数据备份**：每个文件块都可以冗余存储到多个节点上，大大提高了系统的容错性和可用性
+
+### *block副本的存放策略
+
+通常一个数据块的多个副本会被分布到不同的数据节点上，存放策略如下：
+
+- 第一个副本：放置在上传文件的数据节点；如果是集群外提交，则随机挑选一台磁盘不太满、CPU不太忙的节点
+
+- 第二个副本：放置在与第一个副本不同的机架的节点上
+
+- 第三个副本：与第一个副本相同机架的其他节点上
+
+- 更多副本：随机节点
+
+
 ### 错误处理
 
 节点错误，数据错误
@@ -135,7 +160,7 @@ HBase 中的数据模型如下：
 
 -   时间戳：每个单元格都保存着同一份数据的多个版本，这些版本采用时间戳进行索引。
 
-### 实现原理
+### *实现原理
 
 HBase 的功能组件如下：
 
@@ -153,8 +178,15 @@ HBase 的功能组件如下：
 
 未来找到每个 Region 的具体位置，HBase 要向客户端提供 Region 和 Region 服务器 的映射关系表，也就是 .META. 表，为了防止 META 表过大，导致一个 Region 都存不下其本身，所以 HBase 构建了三层结构：
 
-![alt text](image-10.png)
 ![alt text](image-11.png)
+
+**各层次作用如下：**
+
+- Zookeeper：记录 ROOT 表的位置信息
+
+- ROOT表：记录了.META.表的Region位置信息，ROOT 中的数据表只能在一个Region中。通过ROOT表，就可以访问.META.表中的数据
+
+- .META.表：记录了用户数据表的 Region 位置信息，.META.表可以有多个 Region，保存了 HBase 中所有用户数据表的Region 位置信息。
 
 下面是 HBase 的系统架构：
 
@@ -182,7 +214,9 @@ Region 服务器的工作原理如下：
 
 ![alt text](image-14.png)
 
-每个列族都对应一个 Store，当 Store 中的数据不断增加，导致 Region 过大，HBase 就会将 Region 分裂，将列族数据分区。
+每个 Region 都存储用户表中的一部分数据，在 Region 内部，每个列族都对应一个 Store，每次 MemStore 写磁盘时都会生成一个 StoreFile，数量太多时，会影响查找速度，HBase 会调用 Store.compact() 把多个合并成一个，合并操作是比较耗费资源的，只有数量达到一个阈值才启动合并。
+
+当 Store 中的数据不断增加，会导致 Region 过大，HBase 就会将 Region 分裂，相应的 Store 也会分裂。
 
 用户读写数据过程：
 
@@ -205,14 +239,6 @@ Region 服务器的工作原理如下：
 -   每次刷写都生成一个新的 StoreFile 文件，因此，每个 Store 包含多个 StoreFile 文件
 
 -   每个 Region 服务器都有一个自己的 HLog 文件，每次启动都检查该文件，确认最近一次执行缓存刷新操作之后是否发生新的写入操作；如果发现更新，则先写入 MemStore，再刷写到 StoreFile，最后删除旧的 Hlog 文件，开始为用户提供服务；
-
-StoreFile 的合并：
-
--   每次刷写都生成一个新的 StoreFile，数量太多，影响查找速度
-
--   调用 Store.compact()把多个合并成一个
-
--   合并操作比较耗费资源，只有数量达到一个阈值才启动合并
 
 ### Java API
 
@@ -343,7 +369,12 @@ public class Chapter4{
 
 -   无法满足高可扩展性和高可用性的需求
 
-### CAP 理论
+
+**NoSQL 的四大类型：**
+
+![alt text](image-22.png)
+
+### *CAP 理论
 
 -   C（Consistency）：一致性，是指任何一个读操作总是能够读到之前完成的写操作的结果；
 
@@ -353,7 +384,7 @@ public class Chapter4{
 
 CAP 理论告诉我们，一个分布式系统不可能同时满足一致性、可用性和分区容忍性这三个需求，最多只能同时满足其中两个，正所谓“鱼和熊掌不可兼得”。
 
-### BASE 理论
+### *BASE 理论
 
 BASE 即：基本可用（Basically Availble）、软状态（Soft-state）、最终一致性（Eventual consistency）；
 
@@ -469,3 +500,163 @@ MongoDB 数据类型：
     ```
 
 ## MapReduce
+
+MapReduce 是一种分布式的批处理计算框架，采用“分而治之”策略。
+
+MapReduce体系结构主要由四个部分组成，分别是：Client、JobTracker、TaskTracker以及Task
+
+![alt text](image-24.png)
+
+### *Shuffle 流程
+
+每个执行 Map 任务的 Worker 会分配一个缓存（默认100MB），每个 <key, value> 根据 key 通过 hash(key) % numReducers 决定它应该送往哪个 Reduce，送往同一个 Reduce 的 key 处于同一分区。
+
+输出会首先写入到内存缓冲区中，当超过一定的阈值时会将缓冲区数据按 key 排序后写入磁盘，当磁盘文件数量超过预定值时（默认是 3），会进行文件合并，合并时依然会按照 key 的顺序进行归并。
+
+在每次合并时会执行 combiner，这是用户提供的合并函数，会对相同 key 的 value 进行一次合并，具体的合并操作由用户决定，大多是和 Reduce 相同的操作，来减少网络传输的数据量，减轻 Reduce 的压力。
+
+Map 任务都完成后，Reduce 会通过 RPC 像 JobTracker 询问其所在分区的所有 key 的位置，远程获取到来自不同 Map 机器上的数据后，将来自不同机器的数据按照 key 先进行一次归并排序（如果数据量过大要进行外排序）。之后交给用户定义的 Reduce 函数处理即可。
+
+### *WordCount 实现
+
+??? note "WordCount"
+    ```java
+    import java.io.IOException;  
+    import java.util.StringTokenizer;
+    import org.apache.hadoop.conf.Configuration;  
+    import org.apache.hadoop.fs.Path;  
+    import org.apache.hadoop.io.IntWritable;  
+    import org.apache.hadoop.io.Text;  
+    import org.apache.hadoop.mapreduce.Job;  
+    import org.apache.hadoop.mapreduce.Mapper;  
+    import org.apache.hadoop.mapreduce.Reducer;  
+    import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;  
+    import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;  
+    import org.apache.hadoop.util.GenericOptionsParser;
+
+    // 主类 WordCount
+    public class WordCount {
+        // 自定义 Mapper 类：输入键值对<Object, Text>，输出键值对<Text, IntWritable>
+        public static class MyMapper extends Mapper<Object, Text, Text, IntWritable> {
+            // 每个单词计数为 1，定义一个常量
+            private final static IntWritable one = new IntWritable(1);
+            private Text word = new Text();
+
+            // map 方法处理每一行文本
+            public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+                // 使用空格分隔每一行的单词
+                StringTokenizer itr = new StringTokenizer(value.toString());
+                while (itr.hasMoreTokens()) {
+                    // 提取下一个单词
+                    word.set(itr.nextToken());
+                    // 输出 <单词, 1>
+                    context.write(word, one);
+                }
+            }
+        }
+
+        // 自定义 Reducer 类：将相同 key（单词）的所有 1 进行求和
+        public static class MyReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+            private IntWritable result = new IntWritable();
+
+            public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+                int sum = 0;
+                // 遍历所有 value，对同一个单词的出现次数求和
+                for (IntWritable val : values) {
+                    sum += val.get();
+                }
+                result.set(sum);
+                // 输出 <单词, 总次数>
+                context.write(key, result);
+            }
+        }
+
+        // 主方法：配置并提交作业
+        public static void main(String[] args) throws Exception {
+            Configuration conf = new Configuration();
+            // 解析通用参数，例如 -D 设置参数
+            String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
+            
+            // 检查输入输出路径参数是否正确
+            if (otherArgs.length != 2) {
+                System.err.println("Usage: wordcount <in> <out>");
+                System.exit(2);
+            }
+
+            // 创建 Job 实例并命名
+            Job job = new Job(conf, "word count");
+            job.setJarByClass(WordCount.class); // 设置主类
+            job.setMapperClass(MyMapper.class); // 设置 Mapper 类
+            job.setReducerClass(MyReducer.class); // 设置 Reducer 类
+
+            // 设置 Map 和 Reduce 的输出类型
+            job.setOutputKeyClass(Text.class);
+            job.setOutputValueClass(IntWritable.class);
+
+            // 设置输入输出路径
+            FileInputFormat.addInputPath(job, new Path(otherArgs[0]));  // 输入路径
+            FileOutputFormat.setOutputPath(job, new Path(otherArgs[1])); // 输出路径
+
+            // 提交任务并等待执行结果
+            System.exit(job.waitForCompletion(true) ? 0 : 1);
+        }
+    }
+    ```
+
+
+## Spark
+
+### *Spark架构组成
+
+![alt text](image-25.png)
+
+cluster manager，driver，executor，work node
+
+### *RDD操作
+
+RDD（Resilient Distributed Dataset）叫做弹性分布式数据集，是Spark中最基本的数据抽象，它代表一个不可变、可分区、里面的元素可并行计算的集合。
+
+**转换操作**：对于RDD而言，每一次转换操作都会产生不同的RDD，供给下一个“转换”使用
+
+![alt text](image-26.png)
+
+转换操作是惰性求值的，只有遇到行动操作时，才会正在进行转换计算。
+
+**行动操作**：行动操作是真正触发计算的地方。
+
+![alt text](image-27.png)
+
+## Hive
+
+### 数据仓库
+
+数据仓库：数据仓库（Data Warehouse）是一个面向主题的（Subject Oriented）、集成的（Integrated）、相对稳定的（Non-Volatile）、反映历史变化（Time Variant）的数据集合，用于**支持管理决策**。
+
+![alt text](image-28.png)
+
+数据仓库中的数据是相对稳定的，是大量的历史数据，从数据源中加载到数据仓库后，就不在变化了。通过一些数据分析工具（OLAP 数据库等），得到数据报表等，来支撑企业的决策。
+
+Hive 依赖分布式文件系统HDFS存储数据，依赖分布式并行计算模型 MapReduce 处理数据，依赖分布式文件系统 HDFS 存储数据。
+
+Hive 本身不支持数据存储和处理，只提供一种 HiveQL （类似 SQL）的语言来定义计算过程。
+Hive 特性：
+
+- 采用批处理方式处理海量数据：Hive 会将 HiveQL 转化为 MapReduce 任务来进行运行。
+
+
+- 提供适合数据仓库操作的工具
+
+
+### 系统架构
+
+![alt text](image-29.png)
+
+- 用户接口模块包括CLI（命令行工具）、HWI（Hive Web Interface）、JDBC、ODBC、Thrift Server（RPC 调用）
+
+- 驱动模块（Driver）包括编译器、优化器、执行器等，负责把HiveSQL语句转换成一系列MapReduce作业
+
+- 元数据存储模块（Metastore）是一个独立的关系型数据库（自带derby数据库，或MySQL数据库）
+
+
+
+
