@@ -17,6 +17,99 @@ cmake_minimum_required(VERSION 3.9) # 标识 CMake 最低版本
 add_executable(可执行程序名 源文件名称) # 定义工程会生成一个可执行程序
 ```
 
+### **project**
+
+`project()` 是 CMake 中一个非常核心的宏，用来定义项目的名称、语言等信息。它的语法比较灵活，不同版本的 CMake 支持的参数有所不同。
+
+在 **CMake 官方文档（≥3.12）** 中，`project()` 的完整语法大致如下：
+
+```cmake
+project(<PROJECT-NAME> 
+        [VERSION <major>[.<minor>[.<patch>[.<tweak>]]]]
+        [DESCRIPTION <project-description-string>]
+        [HOMEPAGE_URL <url-string>]
+        [LANGUAGES <language-name>...])
+```
+
+---
+
+**参数说明**
+
+1. **`<PROJECT-NAME>`**
+
+   * 项目名称（必须参数）。
+   * 会定义一些变量，例如：
+
+     * `PROJECT_NAME`（当前项目名）
+     * `<PROJECT-NAME>_SOURCE_DIR`（源代码路径）
+     * `<PROJECT-NAME>_BINARY_DIR`（构建路径）
+
+2. **`VERSION`**
+
+   * 指定项目版本号，格式最多支持 4 个字段：
+
+     ```cmake
+     project(myproj VERSION 1.2.3.4)
+     ```
+   * 会自动定义以下变量：
+
+     * `PROJECT_VERSION`
+     * `PROJECT_VERSION_MAJOR`
+     * `PROJECT_VERSION_MINOR`
+     * `PROJECT_VERSION_PATCH`
+     * `PROJECT_VERSION_TWEAK`
+
+3. **`DESCRIPTION`**
+
+   * 项目描述信息（字符串）。
+   * 定义变量：`PROJECT_DESCRIPTION`。
+
+4. **`HOMEPAGE_URL`**
+
+   * 项目主页 URL（字符串）。
+   * 定义变量：`PROJECT_HOMEPAGE_URL`。
+
+5. **`LANGUAGES`**
+
+   * 指定项目要启用的语言。
+   * 常见取值：`C`、`CXX`、`CUDA`、`Fortran` 等。
+   * 如果不指定，默认是 `C CXX`。
+   * 如果不需要语言（纯脚本项目），可写：
+
+     ```cmake
+     project(myproj LANGUAGES NONE)
+     ```
+
+---
+
+**示例**
+
+```cmake
+cmake_minimum_required(VERSION 3.15)
+
+project(MyApp 
+        VERSION 1.2.0
+        DESCRIPTION "A simple demo application"
+        HOMEPAGE_URL "https://example.com/myapp"
+        LANGUAGES CXX CUDA)
+```
+
+生成的变量包括：
+
+```cmake
+PROJECT_NAME = MyApp
+PROJECT_VERSION = 1.2.0
+PROJECT_VERSION_MAJOR = 1
+PROJECT_VERSION_MINOR = 2
+PROJECT_VERSION_PATCH = 0
+PROJECT_DESCRIPTION = "A simple demo application"
+PROJECT_HOMEPAGE_URL = "https://example.com/myapp"
+```
+
+---
+
+要不要我帮你整理一张 **CMake 版本支持的 `project()` 参数对照表**（比如 CMake 3.0 支持哪些，3.12 新增哪些）？这样你能快速判断不同版本里能不能用 `DESCRIPTION` 或 `HOMEPAGE_URL`。
+
 
 ### **message**
 
