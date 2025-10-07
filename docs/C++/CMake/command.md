@@ -35,7 +35,7 @@ project(<PROJECT-NAME>
 
 **参数说明**
 
-1. **`<PROJECT-NAME>`**
+**`<PROJECT-NAME>`**
 
    * 项目名称（必须参数）。
    * 会定义一些变量，例如：
@@ -44,7 +44,7 @@ project(<PROJECT-NAME>
      * `<PROJECT-NAME>_SOURCE_DIR`（源代码路径）
      * `<PROJECT-NAME>_BINARY_DIR`（构建路径）
 
-2. **`VERSION`**
+**`VERSION`**
 
    * 指定项目版本号，格式最多支持 4 个字段：
 
@@ -59,17 +59,17 @@ project(<PROJECT-NAME>
      * `PROJECT_VERSION_PATCH`
      * `PROJECT_VERSION_TWEAK`
 
-3. **`DESCRIPTION`**
+**`DESCRIPTION`**
 
    * 项目描述信息（字符串）。
    * 定义变量：`PROJECT_DESCRIPTION`。
 
-4. **`HOMEPAGE_URL`**
+**`HOMEPAGE_URL`**
 
    * 项目主页 URL（字符串）。
    * 定义变量：`PROJECT_HOMEPAGE_URL`。
 
-5. **`LANGUAGES`**
+**`LANGUAGES`**
 
    * 指定项目要启用的语言。
    * 常见取值：`C`、`CXX`、`CUDA`、`Fortran` 等。
@@ -106,10 +106,57 @@ PROJECT_DESCRIPTION = "A simple demo application"
 PROJECT_HOMEPAGE_URL = "https://example.com/myapp"
 ```
 
+### **add_subdirectory**
+
+`add_subdirectory()` 是 CMake 里组织多目录的关键指令，它的语法和可选参数如下：
+
+
+**基本语法**
+
+```cmake
+add_subdirectory(source_dir [binary_dir] [EXCLUDE_FROM_ALL])
+```
+
+**参数说明**
+
+**`source_dir`**（必选）
+
+   * 子目录源码路径，可以是相对路径（相对当前 `CMakeLists.txt`）或绝对路径。
+   * 该目录必须包含一个 `CMakeLists.txt`。
+
+**`binary_dir`**（可选）
+
+   * 子目录的构建输出目录（即 build tree 里对应的目录）。
+   * 如果不写，默认在父目录的构建目录下生成一个同名子目录。
+   * 用法示例：
+
+     ```cmake
+     add_subdirectory(src ${CMAKE_BINARY_DIR}/custom_build_dir)
+     ```
+
+     这样 `src` 的构建文件会放到 `build/custom_build_dir` 里，而不是 `build/src`。
+
+**`EXCLUDE_FROM_ALL`**（可选标志）
+
+   * 如果加上这个标志，子目录中的目标（target）不会自动加入 `all` 构建目标。
+   * 意味着运行 `make`（或 `cmake --build .`）时不会默认编译它们，必须显式指定：
+
+     ```bash
+     cmake --build . --target mytests
+     ```
+   * 典型用例：测试代码、示例代码、工具程序，不希望默认编译。
+
+**示例**
+
+```cmake
+# 普通方式：src目录直接加入构建
+add_subdirectory(src)
+
+# 把 tests 的构建输出放到自定义目录，并且不默认编译
+add_subdirectory(tests ${CMAKE_BINARY_DIR}/tests_build EXCLUDE_FROM_ALL)
+```
+
 ---
-
-要不要我帮你整理一张 **CMake 版本支持的 `project()` 参数对照表**（比如 CMake 3.0 支持哪些，3.12 新增哪些）？这样你能快速判断不同版本里能不能用 `DESCRIPTION` 或 `HOMEPAGE_URL`。
-
 
 ### **message**
 
