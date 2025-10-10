@@ -1,69 +1,102 @@
-## Architecture
+## 概念
+k8s 集群由两个部分组成：Master 和 Node 两种节点组成：
 
-k8s 由控制平面以及一系列被称作计算节点的工作机组成。它们的架构如下：
+![alt text](image-3.png)
 
-![alt text](image.png)
+Master 中有：
 
-控制平面组件会为集群做出全局决策，比如资源的调度。控制平面组件可以在集群中的任何节点上运行：
+- **kube-apiserver** 负责 API 服务；
+- **kube-scheduler **负责调度；
+- **kube-controller-manager **负责容器编排。
+- 整个集群的持久化数据，则由 kube-apiserver 处理后保存在 **etcd** 中。
 
-- kube-apiserver：负责 API 服务；整个集群的持久化数据会由 apiserver 处理后存储在 etcd 中；
+计算节点上最核心的部分是 **kubelet**，主要负责同容器运行时（比如 Docker ）交互，它通过 CRI（Container Runtime Interface）远程调用接口，这个接口定义了容器运行时的各项核心操作，比如：启动一个容器需要的所有参数。只要你的这个容器运行时能够运行标准的容器镜像，它就可以通过实现 CRI 接入到 Kubernetes 项目当中。
 
-- kube-scheduler：负责监视新创建的、未指定运行节点的 Pods， 并选择节点来让 Pod 在上面运行；
+而具体的容器运行时，比如 Docker 项目，则一般通过 OCI 这个容器运行时规范同底层的 Linux 操作系统进行交互，即：把 CRI 请求翻译成对 Linux 操作系统的调用（操作 Linux Namespace 和 Cgroups 等）。
 
-- kube-controller-manager：负责运行控制器进程（在 k8s 中，控制器通过监控集群的公共状态，并致力于将当前状态转变为期望的状态）；控制器有许多不同类型，如：Node 控制器、Job 控制器等；
+此外 kubelet 还通过 gRPC 同 **Device Plugin** 进行交互，管理宿主机的 GPU 等物理设备，是基于 Kubernetes 项目进行机器学习训练、高性能作业支持等工作必须关注的功能。
 
-节点组件会在每个节点上运行，负责维护运行的 Pod 并提供 Kubernetes 运行时环境：
+kubelet 还需要通过 **CNI**（Container Networking Interface）和 **CSI**（Container Storage Interface）为容器提网络配置和持久化存储。
 
-- kubelet：主要负责同容器运行时（比如 Docker 项目）打交道。而这个交互所依赖的，是一个称作 CRI（Container Runtime Interface）的远程调用接口，这个接口定义了容器运行时的各项核心操作，比如：启动一个容器需要的所有参数。
+## kubeadm
 
-- 容器运行时：kubelet 通过与支持 CRI（Container Runtime Interface）容器运行时交互，来管理容器的执行和生命周期。
+kubeadm 是 k8s 官方提供的部署工具，它可以为我们检测 k8s 启动时所需的环境，并创建 k8s 各个组件启动的配置文件以及 ca 证书等。
 
-## Concept
+通过 `kubeadm init` 我们可以初始化一个 Master 节点，他会检测机器配置（CPU、内存等）、机器是否有容器运行时环境、Linux Cgroups 模块是否可用等等，通过检查后会生成一系列等配置文件，如下：
 
-### Pod
+在 `/etc/kubernetes` 会生成根 ca 证书及密钥
 
-Pod 是可以在 Kubernetes 中创建和管理的、最小的可部署的计算单元。它类似于 Linux 中用户组的概念，一个 Pod 中可能有一个或多个容器组成，这些容器共享存储、网络、以及怎样运行这些容器的规约。关于 Pod 最重要的一个事实是：它只是一个逻辑概念，Kubernetes 真正处理的，还是宿主机操作系统上 Linux 容器的 Namespace 和 Cgroups，而并不存在一个所谓的 Pod 的边界或者隔离环境。
+```
+$ ls ca.*
+ca.crt  ca.key
+```
+此证书用于给 api-server、kubelet 等组件签发证书，来实现组件间等安全连接。
 
-在启动 Pod 时 k8s 会先启动一个 Infra 容器，而其他用户定义的容器，则通过 Join Network Namespace 的方式，与 Infra 容器关联在一起
-
-![alt text](image-1.png)
-
-这也就意味着，对于 Pod 里的容器 A 和容器 B 来说：
-
-- 它们可以直接使用 localhost 进行通信；
-
-- 一个 Pod 只有一个 IP 地址，也就是这个 Pod 的 Network Namespace 对应的 IP 地址；
-
-- Pod 的生命周期只跟 Infra 容器一致，而与容器 A 和 B 无关；
-
-下面介绍两种 Pod 中特殊的容器：Init 容器 和 Sidecar 容器
-
-### Init 容器
-
-在 Pod 中，所有 Init Container 定义的容器，都会比用户容器先启动，并且 Init Container 容器会按顺序逐一启动，而直到它们都启动并且退出了，用户容器才会启动。考虑下面的例子。
-
-下面的例子定义了一个具有 2 个 Init 容器的简单 Pod。 第一个等待 myservice 启动， 第二个等待 mydb 启动。 一旦这两个 Init 容器都启动完成，Pod 将启动 spec 节中的应用容器：
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: myapp-pod
-  labels:
-    app.kubernetes.io/name: MyApp
-spec:
-  containers:
-  - name: myapp-container
-    image: busybox:1.28
-    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
-  initContainers:
-  - name: init-myservice
-    image: busybox:1.28
-    command: ['sh', '-c', "until nslookup myservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for myservice; sleep 2; done"]
-  - name: init-mydb
-    image: busybox:1.28
-    command: ['sh', '-c', "until nslookup mydb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done"]
+```
+$ ls /etc/kubernetes/manifests/
+cloud-controller-manager.yaml  etcd.yaml  kube-apiserver.yaml  kube-controller-manager.yaml  kube-scheduler.yaml
 ```
 
-## Design 
+此文件夹下等 yaml 文件是一种特殊的容器启动方式叫“Static Pod”，在这台机器启动 kebelet 时，它会自动检测这个目录，加载所有的 Pod YAML 文件，然后在这台机器上启动它们。
+
+> kebelet 是不能通过容器启动的，通常会使用 systemd 来维护其运行状态。
+
+启动结束后，kebeadm 会输出一个 token，用于 Node 加入到该 k8s 集群中，通过如下命令：
+
+```
+$ sudo kubeadm join --token <token> <control-plane-host>:<control-plane-port> --discovery-token-ca-cert-hash sha256:<hash>
+```
+
+通过 join，Node 会从  api-server 获得 ca.ert 等 Master 等信息，此次连接是不安全的，获取到证书信息后，才能进行安全连接。
+
+## 容器化应用
+
+现在我们再回过头看一下上一篇文章中的 Nginx 例子，解释一下各个字段的含义，它给出了两个配置文件：
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 2  # 设置副本数为 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest  # 使用最新版本的 nginx 镜像
+        ports:
+        - containerPort: 80  # 暴露 80 端口
+```
+
+在 k8s 中每一个对象都一个 Metadata 字段，这是 k8s 中对象的唯一标识，这其中最主要使用到的字段是 Labels，它是一组 kv 格式的标签，像 Deployment 这样的控制器对象，就可以通过这个 Labels 字段从 k8 中过滤出它所关心的被控制对象。
+
+在上面这个 YAML 文件中，Deployment 会把所有正在运行的、携带“app: nginx”标签的 Pod 识别为被管理的对象，并确保这些 Pod 的总数严格等于两个，这个过滤规则的定义，是在 Deployment 的“spec.selector.matchLabels”字段。我们一般称之为：Label Selector。
+
+处理 Metadata， k8s 的对象定义还有 Spec，它用来描述它所要表达的功能，不同对象的 Spec 也不尽相同，但是不同对象的 Metadata 通常定义的都是相似的字段。
+
+相比于编写一个单独的 Pod 的 YAML 文件，更推荐的做法是使用一个 replicas=1 的 Deployment。
+
+Deployment 是一种高级资源对象，它不仅定义了应用的容器，还自动管理应用的副本、升级、回滚等功能。
+- 自动管理副本：你可以指定副本数（replicas），Deployment 会确保你指定数量的 Pod 始终存在。若 Pod 宕机或出现故障，Deployment 会自动重新创建新的 Pod。
+
+- 滚动更新：通过 Deployment 进行更新时，Kubernetes 会自动逐步替换旧 Pod，确保服务不中断，支持平滑过渡。
+
+
+??? tip "tip"
+
+    相比于编写一个单独的 Pod 的 YAML 文件，更推荐的做法是使用一个 replicas=1 的 Deployment。
+
+    Deployment 是一种高级资源对象，它不仅定义了应用的容器，还自动管理应用的副本、升级、回滚等功能。
+    - 自动管理副本：你可以指定副本数（replicas），Deployment 会确保你指定数量的 Pod 始终存在。若 Pod 宕机或出现故障，Deployment 会自动重新创建新的 Pod。
+
+    - 滚动更新：通过 Deployment 进行更新时，Kubernetes 会自动逐步替换旧 Pod，确保服务不中断，支持平滑过渡。
+
+
 

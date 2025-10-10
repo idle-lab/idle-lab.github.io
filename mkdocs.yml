@@ -216,11 +216,12 @@ nav:
           - ART: paper/ART/ART.md
     - Cloud:
           - Intro: cloud/index.md
-          - etcd:
+          - Kubernetes:
+                - Container: cloud/k8s/container.md
+                - K8s Basic: cloud/k8s/k8s.md
+          - ETCD:
                 - Intro: cloud/etcd/etcd.md
                 # - etcd-raft: cloud/etcd/etcd-raft.md
-          - Kubernetes:
-                - Intro: cloud/k8s/k8s.md
     - AI:
           - bacis: llm/basic/basic.md
           - LLM:
