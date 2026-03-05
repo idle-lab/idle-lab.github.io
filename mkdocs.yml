@@ -123,6 +123,7 @@ nav:
                 - Basics: Network/basic/basic.md
                 - Custom Protocol: Network/socket/Custom.md
                 - Socket: Network/socket/socket.md
+                - Scaling in the Linux Networking Stack: Network/socket/Scaling.md
     - Programming Languages:
           - C++:
                 - Intro: C++/intro.md
