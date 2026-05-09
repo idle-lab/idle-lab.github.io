@@ -212,10 +212,19 @@ nav:
                 - Testing Distributed Systems for Linearizability: course/MIT6.824/tdsl.md
                 - ZooKeeper: course/MIT6.824/zk.md
     - Paper:
-          - Intro: paper/index.md
-          - WiscKey: paper/WiscKey/WiscKey.md
-          - ART: paper/ART/ART.md
-          - RangeReduce: paper/RangeReduce/RangeReduce.md
+          - Index: paper/index.md
+          - ART:
+            - ART: paper/ART/ART.md
+          - LSM:
+            - WiscKey: paper/WiscKey/WiscKey.md
+            - RangeReduce: paper/RangeReduce/RangeReduce.md
+          - Concurrency Control:
+            - VLL: paper/VLL/VLL.md
+          - Distributed:
+            - Raft: course/MIT6.824/raft.md
+            - MapReduce: course/MIT6.824/MapReduce.md
+            - GFS: course/MIT6.824/gfs.md
+            - ZooKeeper: course/MIT6.824/zk.md
     - Cloud:
           - Intro: cloud/index.md
           - Kubernetes:
@@ -224,10 +233,6 @@ nav:
           - ETCD:
                 - Intro: cloud/etcd/etcd.md
                 # - etcd-raft: cloud/etcd/etcd-raft.md
-    - AI:
-          - bacis: llm/basic/basic.md
-          - LLM:
-               - NPL: llm/npl/npl.md
     - Others:
           - Git:
                 - Intro: Others/Git/index.md
