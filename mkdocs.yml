@@ -215,6 +215,7 @@ nav:
           - Intro: paper/index.md
           - WiscKey: paper/WiscKey/WiscKey.md
           - ART: paper/ART/ART.md
+          - RangeReduce: paper/RangeReduce/RangeReduce.md
     - Cloud:
           - Intro: cloud/index.md
           - Kubernetes:
