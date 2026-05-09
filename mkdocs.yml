@@ -74,6 +74,7 @@ nav:
                       - gdb: os/Tools/GNU/gdb/gdb.md
                       - make: os/Tools/GNU/make/make.md
                       - flex: os/Tools/GNU/flex_yacc/flex.md
+                      - perf: os/Tools/GNU/perf/perf.md
           - Basic Knowledge:
                 - Concepts: os/SysConcept/SysConcept.md
                 - Processes:
