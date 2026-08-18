@@ -5,3 +5,5 @@ template.md
 STL Repetition
 .token
 .DS_Store
+.venv
+site/

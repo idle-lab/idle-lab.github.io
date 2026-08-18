@@ -1,0 +1,2 @@
+# 本地开发依赖，与 .github/workflows/PublishWorkFlow.yml 中的 `pip install mkdocs-material` 保持一致
+mkdocs-material==9.7.7
