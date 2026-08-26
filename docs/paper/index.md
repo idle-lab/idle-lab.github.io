@@ -45,6 +45,34 @@
 
 </div>
 
+## 查询优化
+
+<div class="grid cards" markdown>
+
+-   :material-tune:{ .lg .middle } __Unified Query Optimization__
+
+    ---
+
+    *Unified Query Optimization in the Fabric Data Warehouse*
+
+    - :material-tag: `Query Optimization` `MPP` `Data Warehouse`
+    - :material-calendar: 2024
+
+    [:octicons-arrow-right-24: 阅读笔记](uqo-fdw/uqo-in-fdw.md)
+
+-   :material-sitemap:{ .lg .middle } __Dynamic Programming Strikes Back__
+
+    ---
+
+    *Optimizing Join Orders for Complex Predicates and Non-Inner Joins*
+
+    - :material-tag: `Query Optimization` `Join Ordering` `DP`
+    - :material-calendar: 2008
+
+    [:octicons-arrow-right-24: 阅读笔记](DPhyp/DPhyp.md)
+
+</div>
+
 ## 并发控制
 
 <div class="grid cards" markdown>

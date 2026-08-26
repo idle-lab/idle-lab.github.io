@@ -213,6 +213,9 @@ nav:
           - LSM:
             - WiscKey: paper/WiscKey/WiscKey.md
             - RangeReduce: paper/RangeReduce/RangeReduce.md
+          - Query Optimization:
+            - Unified Query Optimization: paper/uqo-fdw/uqo-in-fdw.md
+            - Dynamic Programming Strikes Back: paper/DPhyp/DPhyp.md
           - Concurrency Control:
             - VLL: paper/VLL/VLL.md
           - Distributed:
