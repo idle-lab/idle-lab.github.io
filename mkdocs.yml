@@ -9,160 +9,162 @@ nav:
           - CYB👨‍💻: index.md
           - HOBBY😋: hobbies.md
           - TODO 🧾: TODO.md
-    - DSA:
-          - Intro: DS_Algo.md
-          - Algorithms:
-                - Dynamic Programming (Incomplete):
-                      - Knapsack Problem: Algorithm/DP/Knapsack/Knapsack.md
-                - Binary Lifting: Algorithm/BinaryLifting/BinaryLifting.md
-                - Sorting (Incomplete):
-                      - Intro: Algorithm/Sort/Sort.md
-                      - Bubble Sort: Algorithm/Sort/BubbleSort/Bubble.md
-          - Strings:
-                - Trie: String/Trie/Trie.md
-                - String Hashing: String/StringHash/StringHash.md
-                - KMP: String/KMP/KMP.md
-                - Manacher: String/Manacher/Manacher.md
-          - Data Structures:
-                - Heap:
-                      - Binary Heap: DS/Heap/BinHp.md
-                - Hash Table: DS/HTable/HTable.md
-                - Union-Find: DS/UnionFind/UF.md
-                - Block: DS/Block/Block.md
-                - Binary Indexed Tree:
-                      - BIT: DS/BIT/BIT.md
-                      - 2D BIT: DS/BIT/2_BIT.md
-                - Balanced Search Trees:
-                      - Splay: DS/Splay/Splay.md
-                      - B Tree: DS/BTree/BTree.md
-                      - AVL (To be modified): DS/AVLTree/AVL.md
-                - Segment Tree:
-                      - Basic Segment Tree (To be modified): DS/SegTr/SegTr.md
-                      - JiRuYi Segment Tree: DS/SegTr/JRYSegTr.md
-                - Skip List: DS/SkipList/skiplist.md
-                - Filter: DS/Filter/Filter.md
-          - Graph Theory:
-                - Graph Storage: Graph/StorageOfGraphs/Storage.md
-                - Topological Sort: Graph/TopoSort/Topo.md
-                - Trees (Incomplete):
-                      - Tree Basics: Graph/Tree/Basic/Basic.md
-                      - Minimum Spanning Tree: Graph/Tree/MST/MST.md
-                      - Heavy-Light Decomposition: Graph/Tree/hld/hld.md
-                - Strongly Connected Components:
-                      - SCC: Graph/scc/scc.md
-          - Mathematics:
-                - Computational Geometry:
-                      - 2D Computational Geometry Basics: Math/Geometry/2DGeometry/2D.md
-                      - Convex Hull: Math/Geometry/ConvexHull/CH.md
-                - Number Theory:
-                      - Number Theory Basics: Math/NumberTheory/Fd.md
-                      - Fast Exponentiation: Math/NumberTheory/Qpow/qpow.md
-                      - Multiplicative Inverse: Math/NumberTheory/Inv/Inv.md
-                      - Sieve Method: Math/NumberTheory/sieve/sieve.md
-                - Numerical Methods:
-                      - Newton's Method: Math/Numerical/NtsMethod/Nt.md
-                      - Fast Inverse Square Root: Math/Numerical/QSqrt/QSqrt.md
-          - Problem Summaries:
-                - Integer Partition: UsualQ/IntPartition/IntPartition.md
-                - Maximum Subarray Sum: UsualQ/MaxSumOfSub/MaxSumOfSub.md
-    - OS:
-          - Intro: os/index.md
-          - Tools:
-                - Commands (Incomplete): os/Tools/Cmd/Cmd.md
-                - System Calls: os/Tools/Syscall/Syscall.md
-                - GNU Toolchain:
-                      - gcc: os/Tools/GNU/gcc/gcc.md
-                      - gdb: os/Tools/GNU/gdb/gdb.md
-                      - make: os/Tools/GNU/make/make.md
-                      - flex: os/Tools/GNU/flex_yacc/flex.md
-                      - perf: os/Tools/GNU/perf/perf.md
-          - Basic Knowledge:
-                - Concepts: os/SysConcept/SysConcept.md
-                - Processes:
-                      - Process Concepts: os/ProCon/ProCon.md
-                      - Process States: os/ProStatus/ProStatus.md
-                      - Process Control: os/ProCtrl/ProCtrl.md
-                      - Inter-process Communication: os/IPC/IPC.md
-                      - Daemon Processes: os/DaePro/DaePro.md
-                - Signals: os/Signal/signal.md
-                - Threads:
-                      - Thread Basics: os/Thread/Thread.md
-                      - Thread Synchronization: os/Thread/Sync.md
-                      - Thread Pool: os/Thread/Tpool.md
-                - File Systems:
-                      - Basic IO: os/FileSys/FileIO/FileIO.md
-                      - ext2 File System: os/FileSys/FileSys/FileSys.md
-                      - Virtual File System: os/FileSys/VFS/VFS.md
-                - I/O:
-                      - I/O Models: os/IO/IOmodel/model.md
-                      - Multiplexing: os/IO/Multiplexing/Multiplexing.md
-          - Others:
-                - Root Directory: os/others/root/root.md
-                - Environment Variables: os/others/envir/envir.md
-                - Dynamic & Static Libraries: os/others/Lib/Lib.md
-                - SheBang: os/others/sheBang/sheBang.md
-    - Network:
-          - Intro: Network/index.md
-          - Terminology: Network/pro_term.md
-          - Application Layer:
-                - Overview: Network/Application/index.md
-                - HTTP: Network/Application/http.md
-                - DHCP: Network/Application/dhcp.md
-          - Transport Layer:
-                - Overview: Network/Transport/index.md
-                - UDP: Network/Transport/udp.md
-                - TCP: Network/Transport/tcp.md
-          - Network Layer:
-                - Overview: Network/network/index.md
-                - IPv4: Network/network/ip.md
-                - ICMP: Network/network/icmp.md
-                - Firewall:
-                        - Netfilter & iptables: Network/network/firewall/iptables.md
-          - Link Layer:
-                - Overview: Network/link/index.md
-                - Ethernet: Network/link/Ethernet.md
-          - Programming:
-                - Basics: Network/basic/basic.md
-                - Custom Protocol: Network/socket/Custom.md
-                - Socket: Network/socket/socket.md
-                - Scaling in the Linux Networking Stack: Network/socket/Scaling.md
-    - C++:
-      - Intro: C++/intro.md
-      - Basics: C++/c++初阶杂项.md
-      - Template Basics: C++/模板.md
-      - Inheritance & Polymorphism:
-            - Inheritance: C++/继承多态/继承.md
-            - Polymorphism: C++/继承多态/多态.md
-      - Memory Management: C++/内存管理/new&delete.md
-      - Exception Handling: C++/异常处理/异常.md
-      - Type Casting: C++/typeCast.md
-      - I/O Streams: C++/IO流/IO.md
-      - C++11:
-            - List Initialization: C++/c++11/列表初始化.md
-            - New Features for Classes: C++/c++11/类的新功能.md
-            - Type Declarations: C++/c++11/类型声明.md
-            - Raw Strings: C++/c++11/原始字符串.md
-            - Rvalue References & Move Semantics: C++/c++11/右值引用和移动语义.md
-            - Smart Pointers: C++/c++11/智能指针.md
-            - STL Changes (Incomplete): C++/c++11/STL.md
-            - Templates: C++/c++11/cppmate.md
-            - Multithreading: C++/c++11/多线程.md
-      - C++14:
-            - Templates: C++/c++14/cppmate.md
-            - decltype(auto): C++/c++14/decltype(auto).md
-      - C++17:
-            - Templates: C++/c++17/cppmate.md
-            - Filesystem: C++/c++17/filesystem.md
-            - if Statements: C++/c++17/ifstatement.md
-            - Structured Bindings: C++/c++17/StructBinding.md
-      - C++20:
-            - Coroutine: C++/c++20/coroutine/coroutine.md
-            - Semaphore: C++/c++20/semaphore/semaphore.md
-            - Format: C++/c++20/format/format.md
-      - C++ Memory Order: C++/MemoryOrder.md
-      - cmake:
-            - Intro: C++/CMake/HelloWorld.md
-            - Macros And Commands: C++/CMake/command.md
+    - 基础知识:
+          - 数据结构与算法:
+              - Intro: DS_Algo.md
+              - Algorithms:
+                    - Dynamic Programming (Incomplete):
+                          - Knapsack Problem: Algorithm/DP/Knapsack/Knapsack.md
+                    - Binary Lifting: Algorithm/BinaryLifting/BinaryLifting.md
+                    - Sorting (Incomplete):
+                          - Intro: Algorithm/Sort/Sort.md
+                          - Bubble Sort: Algorithm/Sort/BubbleSort/Bubble.md
+              - Strings:
+                    - Trie: String/Trie/Trie.md
+                    - String Hashing: String/StringHash/StringHash.md
+                    - KMP: String/KMP/KMP.md
+                    - Manacher: String/Manacher/Manacher.md
+              - Data Structures:
+                    - Heap:
+                          - Binary Heap: DS/Heap/BinHp.md
+                    - Hash Table: DS/HTable/HTable.md
+                    - Union-Find: DS/UnionFind/UF.md
+                    - Block: DS/Block/Block.md
+                    - Binary Indexed Tree:
+                          - BIT: DS/BIT/BIT.md
+                          - 2D BIT: DS/BIT/2_BIT.md
+                    - Balanced Search Trees:
+                          - Splay: DS/Splay/Splay.md
+                          - B Tree: DS/BTree/BTree.md
+                          - AVL (To be modified): DS/AVLTree/AVL.md
+                    - Segment Tree:
+                          - Basic Segment Tree (To be modified): DS/SegTr/SegTr.md
+                          - JiRuYi Segment Tree: DS/SegTr/JRYSegTr.md
+                    - Skip List: DS/SkipList/skiplist.md
+                    - Filter: DS/Filter/Filter.md
+              - Graph Theory:
+                    - Graph Storage: Graph/StorageOfGraphs/Storage.md
+                    - Topological Sort: Graph/TopoSort/Topo.md
+                    - Trees (Incomplete):
+                          - Tree Basics: Graph/Tree/Basic/Basic.md
+                          - Minimum Spanning Tree: Graph/Tree/MST/MST.md
+                          - Heavy-Light Decomposition: Graph/Tree/hld/hld.md
+                    - Strongly Connected Components:
+                          - SCC: Graph/scc/scc.md
+              - Mathematics:
+                    - Computational Geometry:
+                          - 2D Computational Geometry Basics: Math/Geometry/2DGeometry/2D.md
+                          - Convex Hull: Math/Geometry/ConvexHull/CH.md
+                    - Number Theory:
+                          - Number Theory Basics: Math/NumberTheory/Fd.md
+                          - Fast Exponentiation: Math/NumberTheory/Qpow/qpow.md
+                          - Multiplicative Inverse: Math/NumberTheory/Inv/Inv.md
+                          - Sieve Method: Math/NumberTheory/sieve/sieve.md
+                    - Numerical Methods:
+                          - Newton's Method: Math/Numerical/NtsMethod/Nt.md
+                          - Fast Inverse Square Root: Math/Numerical/QSqrt/QSqrt.md
+              - Problem Summaries:
+                    - Integer Partition: UsualQ/IntPartition/IntPartition.md
+                    - Maximum Subarray Sum: UsualQ/MaxSumOfSub/MaxSumOfSub.md
+          - 编程语言:
+                - C++:
+                    - Intro: C++/intro.md
+                    - Basics: C++/c++初阶杂项.md
+                    - Template Basics: C++/模板.md
+                    - Inheritance & Polymorphism:
+                          - Inheritance: C++/继承多态/继承.md
+                          - Polymorphism: C++/继承多态/多态.md
+                    - Memory Management: C++/内存管理/new&delete.md
+                    - Exception Handling: C++/异常处理/异常.md
+                    - Type Casting: C++/typeCast.md
+                    - I/O Streams: C++/IO流/IO.md
+                    - C++11:
+                          - List Initialization: C++/c++11/列表初始化.md
+                          - New Features for Classes: C++/c++11/类的新功能.md
+                          - Type Declarations: C++/c++11/类型声明.md
+                          - Raw Strings: C++/c++11/原始字符串.md
+                          - Rvalue References & Move Semantics: C++/c++11/右值引用和移动语义.md
+                          - Smart Pointers: C++/c++11/智能指针.md
+                          - STL Changes (Incomplete): C++/c++11/STL.md
+                          - Templates: C++/c++11/cppmate.md
+                          - Multithreading: C++/c++11/多线程.md
+                    - C++14:
+                          - Templates: C++/c++14/cppmate.md
+                          - decltype(auto): C++/c++14/decltype(auto).md
+                    - C++17:
+                          - Templates: C++/c++17/cppmate.md
+                          - Filesystem: C++/c++17/filesystem.md
+                          - if Statements: C++/c++17/ifstatement.md
+                          - Structured Bindings: C++/c++17/StructBinding.md
+                    - C++20:
+                          - Coroutine: C++/c++20/coroutine/coroutine.md
+                          - Semaphore: C++/c++20/semaphore/semaphore.md
+                          - Format: C++/c++20/format/format.md
+                    - C++ Memory Order: C++/MemoryOrder.md
+                    - cmake:
+                          - Intro: C++/CMake/HelloWorld.md
+                          - Macros And Commands: C++/CMake/command.md
+          - 操作系统:
+              - Intro: os/index.md
+              - Tools:
+                    - Commands (Incomplete): os/Tools/Cmd/Cmd.md
+                    - System Calls: os/Tools/Syscall/Syscall.md
+                    - GNU Toolchain:
+                          - gcc: os/Tools/GNU/gcc/gcc.md
+                          - gdb: os/Tools/GNU/gdb/gdb.md
+                          - make: os/Tools/GNU/make/make.md
+                          - flex: os/Tools/GNU/flex_yacc/flex.md
+                          - perf: os/Tools/GNU/perf/perf.md
+              - Basic Knowledge:
+                    - Concepts: os/SysConcept/SysConcept.md
+                    - Processes:
+                          - Process Concepts: os/ProCon/ProCon.md
+                          - Process States: os/ProStatus/ProStatus.md
+                          - Process Control: os/ProCtrl/ProCtrl.md
+                          - Inter-process Communication: os/IPC/IPC.md
+                          - Daemon Processes: os/DaePro/DaePro.md
+                    - Signals: os/Signal/signal.md
+                    - Threads:
+                          - Thread Basics: os/Thread/Thread.md
+                          - Thread Synchronization: os/Thread/Sync.md
+                          - Thread Pool: os/Thread/Tpool.md
+                    - File Systems:
+                          - Basic IO: os/FileSys/FileIO/FileIO.md
+                          - ext2 File System: os/FileSys/FileSys/FileSys.md
+                          - Virtual File System: os/FileSys/VFS/VFS.md
+                    - I/O:
+                          - I/O Models: os/IO/IOmodel/model.md
+                          - Multiplexing: os/IO/Multiplexing/Multiplexing.md
+              - Others:
+                    - Root Directory: os/others/root/root.md
+                    - Environment Variables: os/others/envir/envir.md
+                    - Dynamic & Static Libraries: os/others/Lib/Lib.md
+                    - SheBang: os/others/sheBang/sheBang.md
+          - 计算机网络:
+              - Intro: Network/index.md
+              - Terminology: Network/pro_term.md
+              - Application Layer:
+                    - Overview: Network/Application/index.md
+                    - HTTP: Network/Application/http.md
+                    - DHCP: Network/Application/dhcp.md
+              - Transport Layer:
+                    - Overview: Network/Transport/index.md
+                    - UDP: Network/Transport/udp.md
+                    - TCP: Network/Transport/tcp.md
+              - Network Layer:
+                    - Overview: Network/network/index.md
+                    - IPv4: Network/network/ip.md
+                    - ICMP: Network/network/icmp.md
+                    - Firewall:
+                            - Netfilter & iptables: Network/network/firewall/iptables.md
+              - Link Layer:
+                    - Overview: Network/link/index.md
+                    - Ethernet: Network/link/Ethernet.md
+              - Programming:
+                    - Basics: Network/basic/basic.md
+                    - Custom Protocol: Network/socket/Custom.md
+                    - Socket: Network/socket/socket.md
+                    - Scaling in the Linux Networking Stack: Network/socket/Scaling.md
     - Course:
           - Intro: course.md
           - CMU 15-445:

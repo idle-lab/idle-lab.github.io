@@ -21,9 +21,9 @@
 
 ## AI 提交署名
 
-- AI 编写的 commit 必须使用该 AI 自己的署名，Author 和 Committer 均使用真实的 AI 身份，不得使用站点所有者或其他用户的姓名、邮箱或签名。
-- 当前 AI 执行者使用 `Codex <codex@openai.com>`，并在提交说明中添加 `Signed-off-by: Codex <codex@openai.com>`；其他 AI 执行者应使用各自的身份。提交前必须核对身份，不能沿用工具自动填入的用户身份。
-- `Signed-off-by` 是提交署名，不等同于 GPG/SSH 加密签名或 GitHub 的 Verified 状态。不得借用用户的签名密钥，也不得把未进行加密签名的提交描述为已验证签名。
+- 提交使用站点所有者的 Git 身份，Author 和 Committer 使用站点所有者的信息，不得使用其他用户的身份。
+- AI 协助完成的 commit 必须在提交说明中注明 AI 的协助署名。当前执行者添加 `Co-authored-by: Codex <codex@openai.com>`；其他 AI 执行者应使用各自准确的署名。
+- `Co-authored-by` 用于说明 AI 协助，不等同于 GPG/SSH 加密签名或 GitHub 的 Verified 状态。不得借用用户的签名密钥，也不得把未进行加密签名的提交描述为已验证签名。
 
 ## 文章风格与表达
 
