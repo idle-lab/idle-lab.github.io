@@ -7,3 +7,6 @@ STL Repetition
 .DS_Store
 .venv
 site/
+
+__pycache__/
+*.pyc
